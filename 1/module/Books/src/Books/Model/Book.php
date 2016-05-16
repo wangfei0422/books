@@ -25,11 +25,38 @@ use		Zend\InputFilter\InputFilterInterface;
 use		Zend\InputFilter\InputFilterAwareInterface;
 class Book extends EntityBase implements InputFilterAwareInterface{        
     
+	const DEFAULT_PLEDGE=10;
+	
+    /**
+    * @return   void
+    */
+    public function __construct(){
+     	parent::__construct();
+		//设置默认值
+		$this["type"]		=	"default";
+		$this["sub_type"]	=	"default";
+		$this["name"]		=	"no name";
+		$this["thumb_image"]=	"default_thumb_image";
+		$this["big_image"]	=	"default_big_image";
+		$this["id_user"]	=	-1;
+		$this["description"]=	"no description yet";
+		$this["pledge"]		=	self::DEFAULT_PLEDGE;
+		$this["pledgeExpireTime"]	=	\DateTime()->format($this->datetimeFormat);
+		$this["whoWantBook"]		=	-1;
+		$this["pledged"]			=	false;
+		
+		//FK 指向本表PK的表
+		$this->tablesFkToMe=array("BorrowedRecord");
+    }
+    
     /**
     * @return   boolean
     */
     public function isWaitingPledge(){
-     	// TODO: implement
+		$whoWantBook=$this->tm->getTable("User")->get($this["whoWantBook"]);
+		$notExpired=$this->hf->dateNewer($this[$pledgeExpireTime]);
+     	if($this["pledged"]==false && !is_null($whoWantBook) && $notExpired)return true;
+		return false;
     }
     
     /**

@@ -23,7 +23,8 @@ namespace Books\Model;
 use		Zend\Stdlib\ArrayObject;
 
 class EntityBase extends ArrayObject{
-    const VERIFY_BIT_MASK=0x1;
+	const VERIFY_BIT_START=0;
+	const VERIFY_BIT_LEN=1;
     /**
     * @var      mixed
     */
@@ -50,12 +51,26 @@ class EntityBase extends ArrayObject{
     */
     protected $cm;
     
-    
+    /**
+    * @var      HelperFunctions
+    */
+    protected $hf;
+	
     /**
     * @var      TableBase
     */
     private $table;    
-    
+
+    /**
+    * @var      array
+    */
+    protected $tablesFkToMe=array();
+	
+    /**
+    * @var      string
+    */ 	
+	protected $datetimeFormat="Y-m-d H:i:s";
+	
     //settor for $this->table
     public function setTable($value){
        $this->table=$value;
@@ -63,6 +78,14 @@ class EntityBase extends ArrayObject{
     
     //gettor for $this->table
     public function getTable(){
+	   if($this->table==null){
+			$table=preg_split("/Books\\\\Model\\\\/",static::class);
+			if(isset($table[1])){
+				$this->setTable($this->tm->getTable($table[1]));
+			}else{
+				return null;
+			}		
+	   }
        return $this->table;
     }   
 
@@ -76,15 +99,32 @@ class EntityBase extends ArrayObject{
 		$this->um=$sm->get("Books\Model\UserManager");
 		$this->tm=$sm->get("Books\Model\TableManager");
 		$this->cm=$sm->get("Books\Model\ConfigManager");
+		$this->hf=$sm->get("Books\Model\HelperFunctions");
 		
+		$this["status"]=1;											//默认状态已经验证,没status的类表需要unset此字段
+		$pk=$this->getTable()->getPk();
+		$this[$pk]=0;												//默认主键为零，非整数主键要设置此键前字符串
     }
-    
+
+    /**
+    * @param    boolean $verified    
+    * @return   boolean
+    */
+    public function setVerify($verified=true){
+     	if(!isset($this["status"]))return true;						//如果没有status字段，则无须设置。
+		$maskValue=0;
+		if($verified)$maskValue=1; 
+		$this["status"]=$this->hf->setMaskValue(self::VERIFY_BIT_START,self::VERIFY_BIT_LEN,$this["status"],$maskValue);
+		$user->save();
+		return true;
+    }
+	
     /**
     * @param    mixed $data    
     * @return   void
     */
     public function exchangeArray($data){
-		$this->storage=array();
+		if(!is_array($this->storage))$this->storage=array();
 		foreach($data as $field => $value){
 			$this->storage[$field]=$value;			
 		}
@@ -102,7 +142,8 @@ class EntityBase extends ArrayObject{
     */
     public function isVerified(){
      	if(!isset($this["status"]))return true;						//如果没有status字段，则无须验证。
-		if($this["status"] & self::VERIFY_BIT_MASK ==1)return true;
+		$maskValue=$this->hf->getMaskValue(self::VERIFY_BIT_START,self::VERIFY_BIT_LEN,$this["status"]);
+		if($maskValue==1)return true;
 		return false;
     }
     
@@ -110,17 +151,21 @@ class EntityBase extends ArrayObject{
     * @return   boolean
     */
     public function delete(){
-		$pk=$this->table->getPk();
-     	return $this->table->delete($this[$pk]);
+		$this->tm->deleteWith($this->tablesFkToMe,$this);
+		$pk=$this->getTable()->getPk();
+     	return $this->getTable()->delete($this[$pk]);
     }
     
     /**
     * @return   boolean
     */
     public function save(){
-		$pk=$this->table->getPk();
-		if(!isset($this[$pk]))$this[$pk]=0;
-     	return $this->table->save($this->storage);
+		$pk=$this->getTable()->getPk();
+		$temp=$this->getArrayCopy();
+		if(isset($temp["extension"]))unset($temp["extension"]);
+		if(!isset($temp[$pk]))$temp[$pk]=0;
+		//var_dump($temp);
+     	return $this->getTable()->save($temp);
     }
     
     /**
@@ -130,16 +175,11 @@ class EntityBase extends ArrayObject{
 		$userTable=$this->tm->getTable("User");
 		$userTablePk=$userTable->getPk();
      	if(isset($this[$userTablePk])){
-			if($this->table->getTableGateway()->getTable() == "User") return $this;
+			if($this->getTable()->getTableGateway()->getTable() == "User") return $this;
 			return $userTable->get($this[$userTablePk]);
 		}
 		return null;
     }    
-    
-    
-    
-
-    
 
 }
 

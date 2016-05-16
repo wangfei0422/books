@@ -25,17 +25,85 @@ use		Zend\InputFilter\InputFilterInterface;
 use		Zend\InputFilter\InputFilterAwareInterface;
 class User extends EntityBase implements InputFilterAwareInterface{        
     
-	const MANAGER_BIT_MASK=0x1;
-	const USER_TYPE_BIT_MASK=~0x1;
+	const MANAGER_BIT_START=0;
+	const MANAGER_BIT_LEN=1;
+	const USER_TYPE_BIT_START=1;
+	const USER_TYPE_BIT_LEN=5;
+
 	const TYPE_DEFAULT=0;
 	const TYPE_SENIOR=1;
 	const DEFAULT_BORROW_DAYS=2;
+	
+    /**
+    * @return   void
+    */
+    public function __construct(){
+     	parent::__construct();
+		//设置默认值
+		$this["name"]="not set";
+		$this["type"]=1;		//非管理员   普通用户  | 管理员   大四用户  | 
+		$this["head_image"]="";
+		$this["qq_number"]="00000000";
+		$this["mail"]	=	"default@books.com";
+		$this["pw"]		=	"";
+		
+		//FK 指向本表PK的表
+		$this->tablesFkToMe=array("Book","Article","BorrowedRecord","BookFeedback","ArticleFeedback","Log");
+    }
+    
+    /**
+    * @param    mixed $user    
+    * @param    boolean $senior    
+    * @return   boolean
+    */
+    public function setSenior($user, $senior=true){
+     	if(is_bool($user)){
+			$senior=$user;
+			$user=$this;
+		}
+		$maskValue=self::TYPE_DEFAULT;
+		if($senior)$maskValue=TYPE_SENIOR; 
+		$user["type"]=$this->hf->setMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$user["type"],$maskValue);
+		$user->save();
+		return true;
+    }
+    
+    /**
+    * @param    mixed $user    
+    * @param    boolean $manager    
+    * @return   boolean
+    */
+    public function setManager($user, $manager=true){
+     	if(is_bool($user)){
+			$manager=$user;
+			$user=$this;
+		}
+		$maskValue=1;
+		if($manager)$maskValue=0;				//零是管理员
+		$user["type"]=$this->hf->setMaskValue(self::MANAGER_BIT_START,self::MANAGER_BIT_LEN,$user["type"],$maskValue);
+		$user->save();
+		return true;
+    }
+    
+    /**
+    * @param    EntityBase $entity    
+    * @param    boolean $verified    
+    * @return   boolean
+    */
+    public function verify(EntityBase $entity, $verified=true){
+     	if(is_bool($entity)){
+			$verified=$entity;
+			$$entity=$this;
+		}
+		$entity->setVerify($verified);
+    }
+	
     /**
     * @return   boolean
     */
     public function isSenior(){
-		$user_type=($this["status"] & self::USER_TYPE_BIT_MASK)>>1;
-		if($user_type==self::TYPE_SENIOR)return true;
+		$maskValue=$this->hf->getMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$this["type"]);
+		if($maskValue==self::TYPE_SENIOR)return true;
 		return false;
     }
     
@@ -43,7 +111,8 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function isManager(){
-		if($this["type"] & self::MANAGER_BIT_MASK ==0)return true;
+		$maskValue=$this->hf->getMaskValue(self::MANAGER_BIT_START,self::MANAGER_BIT_LEN,$this["type"]);
+		if($maskValue ==0)return true;
 		return false;
     }
     
@@ -52,9 +121,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     */
     public function getBooks(){
 		$table=$this->tm->getTable("Book");
-     	$tg=$table->getTableGateway();
-		$pk=$this->getTable()->getPk();
-		return $tg->select(array($pk=>$this[$pk]))->toArray();
+		return $table->fetchAllForEntity($this);
     }
     
     /**
@@ -62,9 +129,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     */
     public function getArticles(){
      	$table=$this->tm->getTable("Article");
-     	$tg=$table->getTableGateway();
-		$pk=$this->getTable()->getPk();
-		return $tg->select(array($pk=>$this[$pk]))->toArray();
+		return $table->fetchAllForEntity($this);
     }
     
     /**
@@ -91,10 +156,9 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   Object
     */
     public function getBooksWaitingToPledge(){
-		$bookTableGateway=$this->tm->getTable("Book")->getTableGateway();
-		$books=$bookTableGateway->select(function($select){
-			$select->where(array("whoWantBook"=>$this["id_user"]));
-		})->toArray();
+		$field="whoWantBook";
+		$field_v=$this["id_user"];
+		$books=$this->tm->getTable("Book")->fetchAll("",array($field => $field_v));
 		$temp=array();
 		foreach($books as $book){
 			if($book->isWaitingPledge())$temp[]=$book;
@@ -147,14 +211,12 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   Object
     */
     public function getBooksBorrowed(){
-		$borrowTableGateway=$this->tm->getTable("BorrowedRecord")->getTableGateway();
-		$bookTableGateway=$this->tm->getTable("Book")->getTableGateway();
-		$borrowRecords=$borrowTableGateway->select(array("id_user"=>$this["id_user"]));
+		$borrowRecords=$this->tm->getTable("BorrowedRecord")->fetchAllForEntity($this);
 		$books=array();
 		foreach($borrowRecords as $record){
 			$book_id=$record["id_book"];
 			if(!isset($books[$book_id])){
-				$book=$bookTableGateway->get($book_id);
+				$book=$record->getBook();
 				$books[$book_id]=$book;
 			}
 			$books[$book_id]["extension"]["records"][]=$record;
@@ -166,14 +228,11 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   Object
     */
     public function getBooksCurrBorrowed(){
-		$borrowTableGateway=$this->tm->getTable("BorrowedRecord")->getTableGateway();
-		$bookTableGateway=$this->tm->getTable("Book")->getTableGateway();
-		$borrowRecords=$borrowTableGateway->select(array("id_user"=>$this["id_user"]));
+		$borrowRecords=$this->tm->getTable("BorrowedRecord")->fetchAllForEntity($this);
 		$books=array();
 		foreach($borrowRecords as $record){
 			if(!$record->isReturned()){
-				$book_id=$record["id_book"];
-				$book=$bookTableGateway->get($book_id);
+				$book=$record->getBook();
 				$book["extension"]["record"]=$record;
 				$books[]=$book;
 			}
@@ -202,16 +261,29 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function log($message){
-     	// TODO: implement
-    }
+		$log=null;
+     	if(is_string($message)){
+			$log=new Log();
+			$log["message"]=$message;
+		}else if($message instanceof Log){
+			$log=$message;
+		}else{
+			return false;
+		}
+		$log["id_user"]=$this["id_user"];
+		$log["date"]=(new \DateTime())->format($this->datetimeFormat);
+		$log->save();
+		return true;
+	}
     
     /**
     * @return   Object
     */
     public function getLogs(){
-     	// TODO: implement
-    }    
-    
+     	$table=$this->tm->getTable("Log");
+		return $table->fetchAllForEntity($this);
+    }
+	
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void

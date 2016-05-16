@@ -64,11 +64,15 @@ class TableBase{
     * @param    boolean $paginated    
     * @return   array
     */
-    public function fetchAll($order="", $offset=0, $limit=1000, $paginated=false){
+    public function fetchAll($order="", $where="", $offset=-1, $limit=-1, $paginated=false){
       	$tg=$this->tableGateway;
 		$table=$tg->getTable();
 		if($paginated){
 			$select = new Select($table);
+			if(!empty($order))$select->order($order);
+			if(!empty($where))$select->where($where);
+			if($offset!=-1)$select->offset($offset);
+			if($offset!=-1)$select->limit($limit);
 			
 			$resultSetPrototype=null;
 			$entityClass='Books\Model\\' . $table;
@@ -82,8 +86,9 @@ class TableBase{
 		}
 		return $tg->select(function($select) use($offset,$limit,$order){
 			if(!empty($order))$select->order($order);
-			$select->offset($offset);
-			$select->limit($limit);
+			if(!empty($where))$select->where($where);
+			if($offset!=-1)$select->offset($offset);
+			if($offset!=-1)$select->limit($limit);
 		});
     }
 	
@@ -119,22 +124,32 @@ class TableBase{
     */
     public function save($data){
 		$id = $data[$this->pk];
-		if((is_integer($id) && $id==0) || is_string($id)) {
+		if((is_integer($id) && $id==0)) {
 			$this->tableGateway->insert($data);
 		} else {
 			if ($this->get($id)) {
 				$this->tableGateway->update($data, array('id' => $id));
-			} else {
+			} else if(is_string($id)){
+				$this->tableGateway->insert($data);
+			} else{
 				throw new \Exception($this->tableGateway->getTable() . ' id does not exist');
 			}
 		}
 		return true;
     }    
     
-    
-    
-
-    
+    /**
+    * @param    EntityBase $entity    
+    * @param    string $order    
+    * @param    boolean $paginated    
+    * @return   array
+    */
+    public function fetchAllForEntity(EntityBase $entity,$order="",$paginated=false){
+     	$pk=$entity->getTable()->getPk();
+		$pk_v=$entity[$pk];
+		$where=array($pk => $pk_v);
+		return $this->fetchAll($order,$where,-1,-1,$paginated);
+    }    
 
 }
 

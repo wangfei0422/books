@@ -28,17 +28,17 @@ class TableManager{
     /**
     * @var      array
     */
-    protected $tables=array();    
-    
+    private $tables;
+	
     protected $pks=array(
-		"User"=>"id_user",
-		"Book"=>"id_book",
-		"BorrowedRecord"=>"id_borrowed_book",
-		"BookFeedback"=>"id",
-		"Article"=>"id_article",
 		"Config"=>"name",
 		"ArticleFeedback"=>"id",
+		"Article"=>"id_article",
+		"BookFeedback"=>"id",
+		"BorrowedRecord"=>"id_borrowed_book",
+		"Book"=>"id_book",
 		"Log"=>"id",
+		"User"=>"id_user",
 	);    
     
     /**
@@ -56,8 +56,9 @@ class TableManager{
 			
 			$resultSetPrototype=null;
 			$entityClass='Books\Model\\' . $table;
+			$this->tables[$table]=$tableInstance;								//放在entity实例化之前，阻止循环调用内存溢出。
 			if(class_exists($entityClass)){
-				$entityInstance=new $entityClass();
+				$entityInstance=new $entityClass();								//entity实例化
 				$entityInstance->setTable($tableInstance);
 				$resultSetPrototype = new ResultSet();
 				$resultSetPrototype->setArrayObjectPrototype($entityInstance);	
@@ -65,16 +66,27 @@ class TableManager{
 			
 			$tableInstance->setTableGateway(new TableGateway($table,$dbAdapter,null,$resultSetPrototype));
 			$tableInstance->setPk(isset($this->pks[$table])?$this->pks[$table]:"id");
-			$this->tables[$table]=$tableInstance;
 		}
 		return $this->tables[$table];
 
     }    
     
-    
-    
-
-    
+    /**
+    * @param    array $tables    
+    * @param    EntityBase $entity    
+    * @return   boolean
+    */
+    public function deleteWith($tables, EntityBase $entity){
+		if(empty($table)) return;
+		$allTables=array_keys($this->pks);
+		foreach($tables as $table){
+			if(in_array($table,$allTables)){
+				$t=$this->getTable($table);
+				$entities=$t->fetchAllForEntity($entity);
+				foreach($entities as $e)$e->delete();
+			}
+		}
+    }    
 
 }
 

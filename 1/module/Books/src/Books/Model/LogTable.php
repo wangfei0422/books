@@ -24,10 +24,6 @@ namespace Books\Model;
 
 class LogTable extends TableBase{            
     
-    
-    
-
-    
 
 }
 

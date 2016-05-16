@@ -26,6 +26,13 @@ use		Zend\InputFilter\InputFilterAwareInterface;
 class Article extends EntityBase implements InputFilterAwareInterface{        
     
     /**
+    * @return   void
+    */
+    public function __construct(){
+     	// TODO: implement
+    }
+    
+    /**
     * @return   Object
     */
     public function getFeedbacks(){

@@ -26,9 +26,17 @@ class ArticleTable extends TableBase{
     
     /**
     * @param    int $n    
-    * @return   Object
+    * @return   array
     */
-    public function getTop($n){
+    public function getTopStar($n){
+     	// TODO: implement
+    }
+    
+    /**
+    * @param    int $n    
+    * @return   array
+    */
+    public function getTopBrowse($n){
      	// TODO: implement
     }    
     

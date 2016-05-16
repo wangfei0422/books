@@ -55,10 +55,14 @@ class Module
 				$indexController->redirect()->toRoute("not_manager");
 			}
 		}
-/* 		foreach($event->getTarget()->getServiceManager()->get("Books\Model\TableManager")->getTable("Book")->fetchAll() as $i){
-			var_dump($i);
-		}
-		exit(); */
+/* 		var_dump($user->getBooks()->toArray());
+		var_dump($user->getArticles()->toArray());
+		$user->log("Hello World!");
+		var_dump($user->getLogs()->toArray());
+		$last=new \DateTime("2016-5-11 12:00:00");
+		$now =new \DateTime();
+		var_dump($now->diff($last)->format("%R"));
+		exit();*/
 	}
 	
 	public function getServiceConfig()

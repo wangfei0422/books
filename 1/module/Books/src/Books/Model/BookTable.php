@@ -26,9 +26,16 @@ class BookTable extends TableBase{
     
     /**
     * @param    int $n    
-    * @return   Object
+    * @return   array
     */
-    public function getTop($n){
+    public function getTopStar($n){
+     	// TODO: implement
+    }
+    
+    /**
+    * @return   array
+    */
+    public function getTopBorrowed(){
      	// TODO: implement
     }    
     

@@ -78,6 +78,7 @@ return array(
 			'Books\Model\UserManager'=>Model\UserManager::class,
 			'Books\Model\TableManager'=>Model\TableManager::class,
 			'Books\Model\ConfigManager'=>Model\ConfigManager::class,
+			'Books\Model\HelperFunctions'=>Model\HelperFunctions::class,
 		),
     ),
     'translator' => array(

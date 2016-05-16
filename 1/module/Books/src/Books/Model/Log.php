@@ -24,7 +24,15 @@ use		Zend\InputFilter\InputFilter;
 
 use		Zend\InputFilter\InputFilterAwareInterface;
 class Log extends EntityBase implements InputFilterAwareInterface{            
-    
+
+    /**
+    * @return   void
+    */
+    public function __construct(){
+     	parent::__construct();
+		unset($this["status"]);
+    }    
+	
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void

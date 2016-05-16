@@ -26,6 +26,13 @@ use		Zend\InputFilter\InputFilterAwareInterface;
 class BorrowedRecord extends EntityBase implements InputFilterAwareInterface{        
     
     /**
+    * @return   void
+    */
+    public function __construct(){
+     	// TODO: implement
+    }
+    
+    /**
     * @return   Book
     */
     public function getBook(){
