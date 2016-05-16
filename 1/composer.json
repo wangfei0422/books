@@ -1,0 +1,21 @@
+{
+    "name": "wang/wfwechat",
+    "description": "wechat app",
+    "authors": [
+        {
+            "name": "Wang Fei",
+            "email": "wangfe04@qq.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "^2.5",
+        "overtrue/wechat": "^2.1",
+        "zendframework/zftool": "dev-master",
+        "winzou/state-machine": "^0.2.2"
+    },
+    "autoload": {
+        "psr-4": { 
+			"Wfwechat\\": "src/wfwechat",
+		}
+    }
+}

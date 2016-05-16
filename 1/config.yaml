@@ -1,0 +1,4 @@
+name: wfwechat
+version: 1
+handle:
+- rewrite: if(!-f) goto "/public/index.php"

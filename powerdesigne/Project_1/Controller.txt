@@ -1,0 +1,9 @@
+Index  =====> sign_up  sign_in index
+User   =====>    add delete edit list page user_manage book_manage book_borrowed_manage book_feedback_manage article_manage article_feedback_manage log_manage config_manage not_manager
+Book  =====>   add delete edit list page borrow return payPledge
+BookFeedback   =====>  add delete edit list
+Article =====>  add delete edit list page
+ArticleFeedback   =====>  add delete edit list
+
+
+
