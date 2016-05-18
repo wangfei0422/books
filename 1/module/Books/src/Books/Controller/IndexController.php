@@ -18,7 +18,8 @@ class IndexController extends Controller
 		}
         return new ViewModel($this->data);
     }
-
+	
+	//主页action
     public function startAction()
     {
 		$tm=$this->tm;
