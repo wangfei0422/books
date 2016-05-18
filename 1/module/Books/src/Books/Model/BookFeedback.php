@@ -29,21 +29,32 @@ class BookFeedback extends EntityBase implements InputFilterAwareInterface{
     * @return   void
     */
     public function __construct(){
-     	// TODO: implement
+     	parent::__construct();
+		//设置默认值
+		$this["id_book_borrowed"]		=	-1;
+		$this["id_user"]		=	-1;
+		$this["date"]	=	date($this->datetimeFormat);
+		$this["star"]	=	0;
+		$this["feedback"]	=	"you have commit ,but you do not set!";
+		
+		//FK 指向本表PK的表 为空，默认
+		//$this->tablesFkToMe=array();
     }
     
     /**
     * @return   Book
     */
     public function getBook(){
-     	// TODO: implement
+     	$r=$this->getBorrowedRecord();
+		if(is_null($r))return null;
+		return $this->tm->getTable("Book")->get($r["id_book"]);
     }
     
     /**
     * @return   BorrowedRecord
     */
-    public function getBorrowRecord(){
-     	// TODO: implement
+    public function getBorrowedRecord(){
+     	return $this->tm->getTable("BorrowedRecord")->get($this["id_book_borrowed"]);
     }    
     
     /**

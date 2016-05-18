@@ -28,7 +28,17 @@ return array(
                     'route'    => '/not_manager',
                     'defaults' => array(
                         'controller' => 'Books\Controller\User',
-                        'action'     => 'not_manager',
+                        'action'     => 'notManager',
+                    ),
+                ),
+            ),
+            'sign_in' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/sign_in',
+                    'defaults' => array(
+                        'controller' => 'Books\Controller\Index',
+                        'action'     => 'signIn',
                     ),
                 ),
             ),
@@ -36,10 +46,10 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'books' => array(
+            'book' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/wm',
+                    'route'    => '/book',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Books\Controller',
                         'controller'    => 'Index',
@@ -93,12 +103,15 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Books\Controller\Index' => Controller\IndexController::class,
+/*             'Books\Controller\Index' => Controller\IndexController::class,
 			'Books\Controller\User' => Controller\UserController::class,
             'Books\Controller\Book' => Controller\BookController::class,
 			'Books\Controller\Article' => Controller\ArticleController::class,
             'Books\Controller\BookFeedback' => Controller\BookFeedbackController::class,
-			'Books\Controller\ArticleFeedback' => Controller\ArticleFeedbackController::class,
+			'Books\Controller\ArticleFeedback' => Controller\ArticleFeedbackController::class,  */
+        ),
+        'abstract_factories' => array(
+			'Books\Controller\Manager'=> new Controller\Manager(),
         ),
     ),
     'view_manager' => array(
@@ -133,35 +146,5 @@ return array(
 		'hostname' =>'127.0.0.1',
 		'port'	   =>'3306',
 		'charset'  =>'',
-	 ),
-	'navigation' => array(
-		'default' => array(
-			 array(
-				'label' => '主页',
-				'route' => 'home',
-			 ),
-			 /*
-			array(
-				'label' => 'Album',
-				'route' => 'album',
-				'pages' => array(
-					 array(
-						'label' => 'Add',
-						'route' => 'album',
-						'action' => 'add',
-					 ),
-					 array(
-						'label' => 'Edit',
-						'route' => 'album',
-						'action' => 'edit',
-					 ),
-					 array(
-						'label' => 'Delete',
-						'route' => 'album',
-						'action' => 'delete',
-					 ),
-				 ),
-			),*/
-		 ),
 	 ),
 );

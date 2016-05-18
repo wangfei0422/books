@@ -38,52 +38,52 @@ class UserController extends AbstractActionController
         return new ViewModel();
     }
 
-    public function user_manageAction()
+    public function exitAction()
     {
         return new ViewModel();
     }
 
-    public function book_manageAction()
+    public function userManageAction()
     {
         return new ViewModel();
     }
 
-    public function book_borrowed_manageAction()
+    public function bookManageAction()
     {
         return new ViewModel();
     }
 
-    public function book_feedback_manageAction()
+    public function bookFeedbackManageAction()
     {
         return new ViewModel();
     }
 
-    public function article_manageAction()
+    public function articleManageAction()
     {
         return new ViewModel();
     }
 
-    public function article_feedback_manageAction()
+    public function articleFeedbackManageAction()
     {
         return new ViewModel();
     }
 
-    public function log_manageAction()
+    public function logManageAction()
     {
         return new ViewModel();
     }
 
-    public function config_manageAction()
+    public function configManageAction()
     {
         return new ViewModel();
     }
 
-    public function book_type_manageAction()
+    public function bookTypeManageAction()
     {
         return new ViewModel();
     }
 
-    public function not_managerAction()
+    public function notManagerAction()
     {
         return new ViewModel();
     }

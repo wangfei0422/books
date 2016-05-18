@@ -1,0 +1,15 @@
+ <?php
+
+$title = '登录';
+$this->headTitle($title);
+?>
+<h><?php echo $this->escapeHtml($title); ?></h>
+<?php
+$form->setAttribute('action', $this->url('sign_in'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('name'));
+echo $this->formRow($form->get('pw'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

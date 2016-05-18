@@ -41,7 +41,7 @@ class Book extends EntityBase implements InputFilterAwareInterface{
 		$this["id_user"]	=	-1;
 		$this["description"]=	"no description yet";
 		$this["pledge"]		=	self::DEFAULT_PLEDGE;
-		$this["pledgeExpireTime"]	=	\DateTime()->format($this->datetimeFormat);
+		$this["pledgeExpireTime"]	=	date($this->datetimeFormat);
 		$this["whoWantBook"]		=	-1;
 		$this["pledged"]			=	false;
 		
@@ -63,7 +63,8 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function isBorrowed(){
-     	// TODO: implement
+		if(is_null($this->getCurrUser()))return false;
+		return true;
     }
     
     /**
@@ -72,65 +73,133 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function borrow(User $userWhoPledge, $daysWanted){
-     	// TODO: implement
+		$r=new BorrowedRecord();
+		$r["id_user"]		=	$this["whoWantBook"];
+		$r["id_book"]		=	$this["id_book"];
+		$r["borrow_date"]	=	date($this->datetimeFormat);;
+		$r["borrow_days"]	=	$daysWanted;
+		$r["return_date"]	=	$r["borrow_date"];
+		$r["whoPayPledge"]	=	$userWhoPledge["id_user"];
+		$r->save();
+		
+     	$this["pledgeExpireTime"]=date($this->datetimeFormat);
+		$this["pledged"]=true;
+		$this->save();
     }
     
     /**
     * @return   boolean
     */
     public function return(){
-     	// TODO: implement
+		$r=$this->getCurrRecord();
+		if(is_null($r))return true;
+		$r["return_date"]=date($this->datetimeFormat);
+		$r->save();
+		return true;
+    }
+
+    /**
+    * @return   User
+    */
+    public function getCurrUser(){
+     	if(is_null($this->getCurrRecord()))return null;
+		return $this->tm->getTable("User")->get($this["id_user"]);
     }
     
+    /**
+    * @return   BorrowedRecord
+    */
+    public function getCurrRecord(){
+     	$records=$this->tm->getTable("BorrowedRecord")->fetchAllForEntity($this);
+		foreach($records as $record){
+			if(!$record->isReturned())return $record;
+		}
+		return null;
+    }
+	
     /**
     * @return   Object
     */
     public function getFeedbacks(){
-     	// TODO: implement
+     	$temp=array();
+		$records=$this->getBorrowedRecords();
+		foreach($records as $record){
+			$feedbacks=$record->getFeedbacks();
+			foreach($feedbacks as $feedback) $temp[]=$feedback;
+		}
+		return $temp;
     }
     
     /**
     * @return   int
     */
     public function getLeftDays(){
-     	// TODO: implement
+     	return $this->getCurrRecord()->getLeftDays();
     }
     
     /**
     * @return   User
     */
     public function getUserWhoWant(){
-     	// TODO: implement
+     	return $this->tm->getTable("User")->get($this["whoWantBook"]);
     }
     
     /**
     * @return   User
     */
     public function getUserWhoPledge(){
-     	// TODO: implement
+		$r=$this->getCurrRecord();
+     	if(is_null($r))return null;
+		return  $this->tm->getTable("User")->get($this["whoPayPledge"]);
     }
     
     /**
     * @return   array
     */
-    public function getBorrowsRecords(){
-     	// TODO: implement
+    public function getBorrowedRecords(){
+     	return $this->tm->getTable("BorrowedRecord")->fetchAllForEntity($this);
     }
     
     /**
     * @return   boolean
     */
     public function saveForIdleStatus(){
-     	// TODO: implement
+     	$this["whoWantBook"]=-1;
+		$this["pledgeExpireTime"]=date($this->datetimeFormat);
+		$this["pledged"]=false;
+		$this-save();
     }
     
     /**
+    * @param    User $user    
     * @return   boolean
     */
-    public function saveForWaitingPledgeStatus(){
-     	// TODO: implement
+    public function saveForWaitingPledgeStatus(User $user){
+     	$this["whoWantBook"]=$user["id_user"];
+		$this["pledgeExpireTime"]=date($this->datetimeFormat);
+		$this["pledged"]=false;
+		$this-save();
     }    
+
+    /**
+    * @return   int
+    */
+    public function getAverageStar(){
+     	$feedbacks=$this->getFeedbacks();
+		$temp=array();
+		foreach($feedbacks as $feedback)$temp[]=$feedback["star"];
+		if(empty($temp))return 0;
+		$aveStar=(float)array_sum($temp)/count($temp);
+		return round($aveStar);
+    }
     
+    /**
+    * @return   int
+    */
+    public function getBorrowCount(){
+     	return count($this->getBorrowedRecords());
+    }    
+	
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void

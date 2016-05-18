@@ -12,7 +12,9 @@ class Module
 {
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        $module= include __DIR__ . '/config/module.config.php';
+		$navigation= include __DIR__ . '/config/navigation.config.php';
+	    return array_merge($module,$navigation);
     }
 
     public function getAutoloaderConfig()
@@ -42,8 +44,8 @@ class Module
 		$indexController	=	$event->getTarget()->getServiceManager()->get("ControllerLoader")->get("Books\Controller\Index");
 		$indexController->setEvent($event);
 		//如果用户未登录，并且请求url非网站入口，则重定向至网站入口进行登录。
-		if(!$userManager->isLogged() && $routeName!=="home"){
-			$indexController->redirect()->toRoute("home");
+		if(!$userManager->isLogged() && $routeName!="sign_in"){
+			$indexController->redirect()->toRoute("sign_in");
 		}
 		
 		//管理员权限判断
@@ -51,18 +53,10 @@ class Module
 		$controller=$event->getRouteMatch()->getParam("controller");
 		$action=$event->getRouteMatch()->getParam("action");
 		if($user!=null && !$user->isManager()){
-			if($controller=="Books\Controller\User" && substr($action,-7)=="_manage"){
+			if($controller=="Books\Controller\User" && substr($action,-6)=="Manage"){
 				$indexController->redirect()->toRoute("not_manager");
 			}
 		}
-/* 		var_dump($user->getBooks()->toArray());
-		var_dump($user->getArticles()->toArray());
-		$user->log("Hello World!");
-		var_dump($user->getLogs()->toArray());
-		$last=new \DateTime("2016-5-11 12:00:00");
-		$now =new \DateTime();
-		var_dump($now->diff($last)->format("%R"));
-		exit();*/
 	}
 	
 	public function getServiceConfig()

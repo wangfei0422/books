@@ -58,7 +58,7 @@ class BookController extends AbstractActionController
         return new ViewModel();
     }
 
-    public function pay_pledgeAction()
+    public function payPledgeAction()
     {
         return new ViewModel();
     }

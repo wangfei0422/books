@@ -24,11 +24,25 @@ namespace Books\Model;
 
 class UserTable extends TableBase{            
     
-    
-    
+    /**
+    * @param    string $name    
+    * @return   User
+    */
+    public function getWithName($name){
+     	$user=$this->fetchAll("",array("name"=>$name));
+		$user=$user->current();
+		if(!$user)return null;
+		return $user;
+    }
 
-    
-
+    /**
+    * @param    string $name    
+    * @return   boolean
+    */
+    public function hasUser($name){
+     	if(is_null($this->getWithName($name)))return false;
+		return true;
+    }    
 }
 
 

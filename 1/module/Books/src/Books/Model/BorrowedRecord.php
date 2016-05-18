@@ -29,49 +29,68 @@ class BorrowedRecord extends EntityBase implements InputFilterAwareInterface{
     * @return   void
     */
     public function __construct(){
-     	// TODO: implement
+     	parent::__construct();
+		//设置默认值
+		$this["id_user"]		=	-1;
+		$this["id_book"]		=	-1;
+		$this["borrow_date"]	=	date($this->datetimeFormat);;
+		$this["borrow_days"]	=	0;
+		$this["return_date"]	=	$this["borrow_date"];
+		$this["whoPayPledge"]	=	-1;
+		
+		if(isset($this["status"]))unset($this["status"]);
+		//FK 指向本表PK的表
+		$this->tablesFkToMe=array("BookFeedback");
     }
     
     /**
     * @return   Book
     */
     public function getBook(){
-     	// TODO: implement
+     	return $this->tm->getTable("Book")->get($this["id_book"]);
     }
     
     /**
     * @return   int
     */
     public function getRealDays(){
-     	// TODO: implement
+		$start_date=$this["borrow_date"];
+		$end_date=$this["return_date"];
+     	if(!$this->isReturned())$end_date=$date($this->datetimeFormat);
+		$this->hf->dateDiffDays($start_date,$end_date);
     }
     
     /**
     * @return   int
     */
     public function getLeftDays(){
-     	// TODO: implement
+     	if($this->isReturned())return 0;
+		$start_date=new \DateTime();
+		$end_date=(new \DateTime($this["borrow_date"]))->modify("+{$this["borrow_days"]} day");
+		$this->hf->dateDiffDays($start_date,$end_date);
+		
     }
     
     /**
     * @return   boolean
     */
     public function isExpired(){
-     	// TODO: implement
+     	if($this->getLeftDays()>0)return true;
+		return false;
     }
     
     /**
     * @return   boolean
     */
     public function isReturned(){
-     	// TODO: implement
+     	return $this["borrow_date"]!=$this["return_date"]
     }
     
     /**
     * @return   Object
     */
     public function getFeedbacks(){
-     	// TODO: implement
+     	return $this->tm->getTable("BookFeedback")->fetchAllForEntity($this);
     }    
     
     /**

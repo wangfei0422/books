@@ -139,7 +139,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     public function borrowBookRequest(Book $book){
      	if($book->isBorrowed()) return false;
 		if($book->isWaitingPledge())return false;
-		$book->saveForWaitingPledgeStatus();
+		$book->saveForWaitingPledgeStatus($this);
 		return true;
     }
 
@@ -172,8 +172,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     */
     public function payPledge(Book $book){
 		if($book->isWaitingPledge()){
-			$book->borrow($this,self::DEFAULT_BORROW_DAYS);
-			$book->saveForIdleStatus();		
+			$book->borrow($this,self::DEFAULT_BORROW_DAYS);	
 			return true;
 		}
 		return false;
@@ -284,19 +283,76 @@ class User extends EntityBase implements InputFilterAwareInterface{
 		return $table->fetchAllForEntity($this);
     }
 	
+	private $inputFilter=null;
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void
     */
     public function setInputFilter(InputFilterInterface $inputFilter){
-     	// TODO: implement
+     	$this->inputFilter=$inputFilter;
     }
     
     /**
     * @return   Zend.InputFilter.InputFilterInterface
     */
     public function getInputFilter(){
-     	// TODO: implement
+     	if(!$this->inputFilter){
+			
+			$inputFilter=new InputFilter();
+ 			$inputFilter->add(array(
+				'name'		=>"id_user",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'Int'),
+				),
+			));
+/* 			$inputFilter->add(
+				'name'		=>"id_user",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'Int'),
+				),
+			);
+			$inputFilter->add(
+				'name'		=>"name",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'StringTrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'StringLeng',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'32',
+						),
+					),
+				),
+			);
+			
+			$inputFilter->add(
+				'name'		=>"pw",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'StringTrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'StringLeng',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'32',
+						),
+					),
+				),
+			); */
+
+			
+			$this->inputFilter=$inputFilter;
+		}
+		return $this->inputFilter;
     }
 
 }

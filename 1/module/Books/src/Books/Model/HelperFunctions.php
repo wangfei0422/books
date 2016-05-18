@@ -68,7 +68,18 @@ class HelperFunctions{
 		}		
 		return $left->diff($right)->format("%R") == "-";
     }
-		
+
+    /**
+    * @param    mixed $start    
+    * @param    mixed $end    
+    * @return   int
+    */
+    public function dateDiffDays($start, $end){
+     	if(is_string($start)) $start= new \DateTime($start);
+		if(is_string($end)) $end= new \DateTime($end);
+		return (int)$start->diff($end)->format("%r%a");
+    }    
+    
 }
 
 

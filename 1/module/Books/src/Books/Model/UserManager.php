@@ -36,9 +36,6 @@ class UserManager{
     */
     public function __construct(){
      	$this->container=new Container("books");
-		
-		//管理员用户登录。
-		$this->container["CurrUser"]=1;
     }
     
     /**
@@ -60,6 +57,7 @@ class UserManager{
     * @return   boolean
     */
     public function logIn(User $user){
+		global $g;
 		$pk=$g["App"]->getServiceManager()->get("Books\Model\TableManager")->getTable("User")->getPk();
 		$this->container["CurrUser"]=$user[$pk];
     }

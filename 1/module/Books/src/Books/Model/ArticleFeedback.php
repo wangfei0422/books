@@ -29,14 +29,23 @@ class ArticleFeedback extends EntityBase implements InputFilterAwareInterface{
     * @return   void
     */
     public function __construct(){
-     	// TODO: implement
+     	parent::__construct();
+		//设置默认值
+		$this["id_article"]		=	-1;
+		$this["id_user"]		=	-1;
+		$this["date"]	=	date($this->datetimeFormat);
+		$this["star"]	=	0;
+		$this["feedback"]	=	"you have commit ,but you do not set anything!";
+		
+		//FK 指向本表PK的表 为空，默认
+		//$this->tablesFkToMe=array();
     }
     
     /**
     * @return   Article
     */
     public function getArticle(){
-     	// TODO: implement
+     	return $this->tm->getTable("Article")->get($this["id_article"]);
     }    
     
     /**

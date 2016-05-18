@@ -1,0 +1,35 @@
+<?php 
+	global $g;
+	$u=$g["App"]->getServiceManager()->get("Books\Model\UserManager")->getCurrUser();
+	$m=false;
+	if($u)$m=$u->isManager() ;
+?>
+<ul class="<?php echo $this->navigation("navigation")->menu()->getUlClass(); ?>">
+	<?php foreach($this->container as $page): ?>
+ 		<?php if($page->label=="主页" && (!$page->mb || $m)):?>
+			<li class=""> <a href="<?php echo $page->getHref();?>"><?php echo $page->label;?></a></li> 
+		<?php elseif(count($page)==0  && (!$page->mb || $m)): ?>
+			<li class=""> <a href="<?php echo $page->getHref();?>"><?php echo $page->label;?></a></li>
+		<?php elseif(!$page->mb || $m): ?>
+			<li class="dropdown">
+			  <a href="<?php echo $page->getHref();?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $page->label;?> <span class="caret"></span></a>
+			  <ul class="dropdown-menu">
+				<?php foreach($page as $sec_page): ?>
+					<?php if($sec_page->mb!=true): ?>
+						<li><a href="<?php echo $sec_page->getHref();?>"><?php echo $sec_page->label;?></a></li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				<?php if($m): ?>
+					<li role="separator" class="divider"></li>
+					<?php foreach($page as $sec_page): ?>
+						<?php if($sec_page->mb==true): ?>
+							<li><a href="<?php echo $sec_page->getHref();?>"><?php echo $sec_page->label;?></a></li>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			  </ul>
+			</li>
+		  </ul>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</ul>

@@ -30,7 +30,7 @@ class Log extends EntityBase implements InputFilterAwareInterface{
     */
     public function __construct(){
      	parent::__construct();
-		unset($this["status"]);
+		if(isset($this["status"]))unset($this["status"]);
     }    
 	
     /**
