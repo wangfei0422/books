@@ -25,12 +25,19 @@ class IndexController extends Controller
 		$form->get("submit")->setValue("登录");
 		$request=$this->getRequest();
 		if($request->isPost()){
-			$user=$this->tm->getTable("User")->getWithName($form->get("name")->getValue());
+			$name=$form->get("name")->getValue();
+			$pw=$form->get("pw")->getValue();
+			$user=$this->tm->getTable("User")->getWithName($name);
 			if($user!=null){
-				$this->um->logIn($user);
-				$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));
+				if($user["pw"]==$pw){								////////////////$pw为何为空？
+					$this->um->logIn($user);
+					$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));					
+				}
+				$this->data["status"]["sucess"]=false;
+				$this->data["status"]["message"]="密码错误，请核对密码。";
 			}else{
-				$this->data["no_user"]=true;
+				$this->data["status"]["sucess"]=false;
+				$this->data["status"]["message"]="用户不存在，请核对用户名。";
 			}
 		}
 		$this->data['form']=$form;

@@ -38,7 +38,7 @@ class UserForm extends Form{
 			'name'=>'name',
 			'type'=>'Text',
 			'options'=>array(
-				'label'=>'ÓÃ»§Ãû',
+				'label'=>'UserName',
 			),
 		));
 		$this->add(array(

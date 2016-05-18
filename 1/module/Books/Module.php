@@ -28,6 +28,7 @@ class Module
         );
     }
 	public function onBootstrap($event){
+		header('Content-Type: text/html; charset=utf-8');
 		//全局变量
 		global $g;
 		$g=array();

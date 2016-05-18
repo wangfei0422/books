@@ -68,7 +68,13 @@ class Manager implements AbstractFactoryInterface{
 			$c->setHf($sm->get("Books\Model\HelperFunctions"));
 			$u=$sm->get("Books\Model\UserManager")->getCurrUser();
 			if(!is_null($u))	$c->setU($u);
-			$c->setData(array("u"=>$u,));
+			$c->setData(array(
+				"u"=>$u,
+				"status"=>array(
+					"sucess"=>true,
+					"message"=>"You are sucessful for executing the action.This is the default message.",
+				),
+			));
 		}
 		return $c;
     }
