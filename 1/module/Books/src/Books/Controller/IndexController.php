@@ -39,7 +39,7 @@ class IndexController extends Controller
 			$name=$f["name"];
 			$pw=$f["pw"];
 			$user=$this->tm->getTable("User")->getWithName($name);
-			if($user!=null){
+			if(!is_null($user)){
 				if($user["pw"]==$pw){								////////////////$pw为何为空？
 					$this->um->logIn($user);
 					//$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));

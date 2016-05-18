@@ -55,12 +55,6 @@ return array(
 						'action'	=>'bookManage',	
 					),
 					array(
-						'label'		=>'借阅记录管理',
-						'route'		=>'book/default',
-						'controller'=>'user',
-						'action'	=>'borrowedRecordManage',	
-					),
-					array(
 						'label'		=>'图书评论管理',
 						'route'		=>'book/default',
 						'controller'=>'user',

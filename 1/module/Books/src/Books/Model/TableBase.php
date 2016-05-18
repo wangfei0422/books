@@ -84,7 +84,7 @@ class TableBase{
 			$paginator = new Paginator($paginatorAdapter);
 			return $paginator;
 		}
-		return $tg->select(function($select) use($offset,$limit,$order){
+		return $tg->select(function($select) use($offset,$where,$limit,$order){
 			if(!empty($order))$select->order($order);
 			if(!empty($where))$select->where($where);
 			if($offset!=-1)$select->offset($offset);
