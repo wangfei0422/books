@@ -18,7 +18,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Books\Controller\Index',
-                        'action'     => 'index',
+                        'action'     => 'start',
                     ),
                 ),
             ),
@@ -39,6 +39,26 @@ return array(
                     'defaults' => array(
                         'controller' => 'Books\Controller\Index',
                         'action'     => 'signIn',
+                    ),
+                ),
+            ),
+            'exit' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/exit',
+                    'defaults' => array(
+                        'controller' => 'Books\Controller\User',
+                        'action'     => 'exit',
+                    ),
+                ),
+            ),
+            'main_page' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/index',
+                    'defaults' => array(
+                        'controller' => 'Books\Controller\Index',
+                        'action'     => 'start',
                     ),
                 ),
             ),

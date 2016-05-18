@@ -5,7 +5,7 @@ namespace Books\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class UserController extends AbstractActionController
+class UserController extends Controller
 {
 
     public function indexAction()
@@ -40,6 +40,8 @@ class UserController extends AbstractActionController
 
     public function exitAction()
     {
+		$this->um->logOut();
+		$this->redirect()->toRoute("main_page");
         return new ViewModel();
     }
 

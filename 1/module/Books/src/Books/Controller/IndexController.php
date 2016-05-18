@@ -19,19 +19,30 @@ class IndexController extends Controller
         return new ViewModel($this->data);
     }
 
+    public function startAction()
+    {
+		$tm=$this->tm;
+		$this->data["users"]=$tm->getTable("User")->fetchAll()->toArray();
+		$this->data["books"]=$tm->getTable("Book")->fetchAll()->toArray();
+		$this->data["articles"]=$tm->getTable("Article")->fetchAll()->toArray();
+        return new ViewModel($this->data);
+    }
+
     public function signInAction()
     {
 		$form=new UserForm();
 		$form->get("submit")->setValue("登录");
 		$request=$this->getRequest();
 		if($request->isPost()){
-			$name=$form->get("name")->getValue();
-			$pw=$form->get("pw")->getValue();
+			$f=$request->getPost();
+			$name=$f["name"];
+			$pw=$f["pw"];
 			$user=$this->tm->getTable("User")->getWithName($name);
 			if($user!=null){
 				if($user["pw"]==$pw){								////////////////$pw为何为空？
 					$this->um->logIn($user);
-					$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));					
+					//$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));
+					$this->redirect()->toRoute("main_page");					
 				}
 				$this->data["status"]["sucess"]=false;
 				$this->data["status"]["message"]="密码错误，请核对密码。";

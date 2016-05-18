@@ -45,8 +45,8 @@ class Module
 		$indexController	=	$event->getTarget()->getServiceManager()->get("ControllerLoader")->get("Books\Controller\Index");
 		$indexController->setEvent($event);
 		//如果用户未登录，并且请求url非网站入口，则重定向至网站入口进行登录。
-		if(!$userManager->isLogged() && $routeName!="sign_in"){
-			$indexController->redirect()->toRoute("sign_in");
+		if(!$userManager->isLogged() && $routeName!="sign_in" && $routeName!="main_page"){
+			$indexController->redirect()->toRoute("main_page");
 		}
 		
 		//管理员权限判断

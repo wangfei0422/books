@@ -4,6 +4,7 @@ call vendor\zendframework\zftool\zf2.bat create module Books
 rem IndexController
 call vendor\zendframework\zftool\zf2.bat create controller Index Books
 call vendor\zendframework\zftool\zf2.bat create action index Index Books
+call vendor\zendframework\zftool\zf2.bat create action start Index Books
 call vendor\zendframework\zftool\zf2.bat create action signIn Index Books
 
 rem UserController
