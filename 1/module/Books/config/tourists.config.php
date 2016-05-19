@@ -10,5 +10,5 @@
 namespace Books;
 // 
 return array(
-	'tourists'=>array("main_page"),
+	'tourists'=>array("main_page","home"),
 );

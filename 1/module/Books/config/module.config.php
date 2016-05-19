@@ -33,9 +33,9 @@ return array(
                 ),
             ),
             'sign_in' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/sign_in[?last_url=:last_url]',
+                    'route'    => '/sign_in',
                     'defaults' => array(
                         'controller' => 'Books\Controller\Index',
                         'action'     => 'signIn',
@@ -43,9 +43,9 @@ return array(
                 ),
             ),
             'sign_up' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/sign_up[?last_url=:last_url]',
+                    'route'    => '/sign_up',
                     'defaults' => array(
                         'controller' => 'Books\Controller\User',
                         'action'     => 'add',
