@@ -1,0 +1,41 @@
+body{
+    font-family: 微软雅黑;
+}
+div.head{
+    width:100%;
+    height: 90px;
+    padding-top:30px;
+}
+div.head>div.head-center{
+    height:58px;
+    line-height: 24px;
+    font-size:20px;
+}
+div.head>div.head-center>ul{
+    list-style-type: none;
+}
+div.head>div.head-center>ul>li{
+    float: left;
+    padding-right:40px;
+}
+div.head>div.head-center>ul>li.head-text{
+    font-size:24px;
+}
+div.book-center{
+    text-align: center;
+    font-size: 12px;
+}
+div.book-center>div.book-text{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+div.book-text>p.title{
+    padding-top: 24px;
+    font-size: 18px;
+    text-align: center;
+}
+div.book-text>p.brief{
+    font-size: 14px;
+    text-align: left;
+}
