@@ -3,13 +3,13 @@
 // +------------------------------------------------------------------------+
 // | PHP Version 5                                                          |
 // +------------------------------------------------------------------------+
-// | ×÷Õß£ºÍõÃÎ                                                             |
+// | ä½œè€…ï¼šç‹æ¢¦                                                             |
 // +------------------------------------------------------------------------+
-// | ÀàÎÄ¼şÓÉpowerdesignerÉú³É£¬ÔÚÔ­°æ±¾»ù´¡ÉÏÔö¼ÓÁËÒÔÏÂÊôĞÔ:               |
-// | 1 Ôö¼ÓÁËÃüÃû¿Õ¼äÖ§³Ö                                                   |
-// | 2 Ôö¼ÓÁËsettorºÍgettorÖ§³Ö                                             |
+// | ç±»æ–‡ä»¶ç”±powerdesignerç”Ÿæˆï¼Œåœ¨åŸç‰ˆæœ¬åŸºç¡€ä¸Šå¢åŠ äº†ä»¥ä¸‹å±æ€§:               |
+// | 1 å¢åŠ äº†å‘½åç©ºé—´æ”¯æŒ                                                   |
+// | 2 å¢åŠ äº†settorå’Œgettoræ”¯æŒ                                             |
 // +------------------------------------------------------------------------+
-// | Ê±¼ä£º2016Äê5ÔÂ                                                       |
+// | æ—¶é—´ï¼š2016å¹´5æœˆ                                                       |
 // +------------------------------------------------------------------------+
 //
 
@@ -37,43 +37,43 @@ class UserForm extends Form{
 		$this->add(array(
 			'name'=>'name',
 			'type'=>'Text',
-			'options'=>array(
-				'label'=>'ÓÃ»§Ãû',
+			'attributes'=>array(
+				'placeholder'=>'ç”¨æˆ·å',
 			),
 		));
 		$this->add(array(
 			'name'=>'pw',
 			'type'=>'Password',
-			'options'=>array(
-				'label'=>'ÃÜÂë',
+			'attributes'=>array(
+				'placeholder'=>'å¯†ç ',
 			),
 		));
 		$this->add(array(
 			'name'=>'head_image',
 			'type'=>'Text',
 			'options'=>array(
-				'label'=>'Í·Ïñ',
+				'label'=>'å¤´åƒ',
 			),
 		));
 		$this->add(array(
 			'name'=>'qq_number',
 			'type'=>'Text',
 			'options'=>array(
-				'label'=>'QQºÅ',
+				'label'=>'QQå·',
 			),
 		));
 		$this->add(array(
 			'name'=>'mail',
 			'type'=>'Text',
 			'options'=>array(
-				'label'=>'ÓÊ¼ş',
+				'label'=>'é‚®ä»¶',
 			),
 		));
 		$this->add(array(
 			'name'=>'submit',
 			'type'=>'Submit',
 			'attributes'=>array(
-				'value'=>'×¢²á',
+				'value'=>'æ³¨å†Œ',
 				'id'   =>'submitbutton',
 			),
 		));

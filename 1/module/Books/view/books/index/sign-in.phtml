@@ -1,21 +1,3 @@
- <?php
-
-$title = '登录';
-$this->headTitle($title);
-?>
-<h><?php echo $this->escapeHtml($title); ?></h>
-<?php
-$form->setAttribute('action', $this->url('sign_in'));
-$form->prepare();
-
-echo $this->form()->openTag($form);
-echo $this->formRow($form->get('name'));
-echo $this->formRow($form->get('pw'));
-echo $this->formSubmit($form->get('submit'));
-echo $this->form()->closeTag();
-
-var_dump($status);
-?>
 <style>
 body{
     background: #FFFFFF;
@@ -83,12 +65,22 @@ body{
                 <div class="right" style="display:block;">
                     <div class="title"><p>用户登陆</p></div>
                     <div class="center">
+					<!--
                         <form action="" method="post" role="form" onsubmit="return formcheck();">
                             <input  type="text" id="username" name="username" placeholder="手机号">
                             <input  type="password" id="password" name="password" placeholder="密码">
                             <input  style="margin-top:30px;" class="btn btn-sm btn-primary" type="submit" name="submit" value="登 录" >
                             <input name="token" value="{$_W['token']}" type="hidden" />
-                        </form>
+                        </form>-->
+						<?php
+							$form->setAttribute('action', $this->url('sign_in'));
+							$form->prepare();
+							echo $this->form()->openTag($form);
+							echo $this->formRow($form->get('name'));
+							echo $this->formRow($form->get('pw'));
+							echo $this->formSubmit($form->get('submit'));
+							echo $this->form()->closeTag();
+						?>
                     </div>
                 </div>
                 <!--用户注册显示div-->

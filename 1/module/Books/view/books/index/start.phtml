@@ -1,14 +1,3 @@
-<?php
-if(!is_null($u)) print($u["name"].",您已经成功登录，尽情享受读书的快乐吧！");
-else print("您还未登录，您只能看到这个页面。");
-var_dump($status);
-var_dump($books);
-var_dump($articles);
-var_dump($users);
-?>
-<a href="<?php echo $this->url('sign_in',array(),array()); ?>">登录</a>
-<a href="<?php echo $this->url('exit',array(),array()); ?>">退出</a>
-Action "index", controller "Index", module "Books".
 <style>
     body{
         font-family: 微软雅黑;
@@ -318,3 +307,15 @@ Action "index", controller "Index", module "Books".
         </div>
     </div>
 </div>
+<?php
+
+if(!is_null($u)) print($u["name"].",您已经成功登录，尽情享受读书的快乐吧！");
+else print("您还未登录，您只能看到这个页面。");
+var_dump($status);
+var_dump($books);
+var_dump($articles);
+var_dump($users);
+
+?>
+<a href="<?php echo $this->url('sign_in',array(),array()); ?>">登录</a>
+<a href="<?php echo $this->url('exit',array(),array()); ?>">退出</a>

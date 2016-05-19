@@ -45,11 +45,16 @@ class UserTable extends TableBase{
     }    
 	
     /**
-    * @param    array $userType    
+    * @param    int $userType    
     * @return   array
     */
     public function getUsersByType($userType){
-     	
+     	$users=$this->fetchAll();
+		$temp=[];
+		foreach($users as $user){
+			if($user->getType()==$userType) $temp[]=$user;
+		}
+		return $temp;
     }    
 }
 

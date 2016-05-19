@@ -50,7 +50,24 @@ class User extends EntityBase implements InputFilterAwareInterface{
 		//FK 指向本表PK的表
 		$this->tablesFkToMe=array("Book","Article","BorrowedRecord","BookFeedback","ArticleFeedback","Log");
     }
+
+    /**
+    * @param    int $type    
+    * @return   int
+    */
+    public function setType($type){
+		$this["type"]=$this->hf->setMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$this["type"],$type);
+		$this->save();
+		return true;
+    }
     
+    /**
+    * @return   int
+    */
+    public function getType(){
+		return $this->hf->getMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$this["type"]);
+    }
+	
     /**
     * @param    mixed $user    
     * @param    boolean $senior    
@@ -63,9 +80,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
 		}
 		$maskValue=self::TYPE_DEFAULT;
 		if($senior)$maskValue=TYPE_SENIOR; 
-		$user["type"]=$this->hf->setMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$user["type"],$maskValue);
-		$user->save();
-		return true;
+		$user->setType($type);
     }
     
     /**
@@ -102,8 +117,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function isSenior(){
-		$maskValue=$this->hf->getMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$this["type"]);
-		if($maskValue==self::TYPE_SENIOR)return true;
+		if($this->getType()==self::TYPE_SENIOR)return true;
 		return false;
     }
     
@@ -306,14 +320,14 @@ class User extends EntityBase implements InputFilterAwareInterface{
 					array('name'=>'Int'),
 				),
 			));
-/* 			$inputFilter->add(
+ 			$inputFilter->add(array(
 				'name'		=>"id_user",
 				'required'	=>true,
 				'filters'	=>array(
 					array('name'=>'Int'),
 				),
-			);
-			$inputFilter->add(
+			));
+			$inputFilter->add(array(
 				'name'		=>"name",
 				'required'	=>true,
 				'filters'	=>array(
@@ -329,9 +343,9 @@ class User extends EntityBase implements InputFilterAwareInterface{
 						),
 					),
 				),
-			);
+			));
 			
-			$inputFilter->add(
+			$inputFilter->add(array(
 				'name'		=>"pw",
 				'required'	=>true,
 				'filters'	=>array(
@@ -347,7 +361,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
 						),
 					),
 				),
-			); */
+			)); 
 
 			
 			$this->inputFilter=$inputFilter;

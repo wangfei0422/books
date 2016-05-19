@@ -88,10 +88,24 @@ class BookTable extends TableBase{
 			$temp[]=$temp2;
 		}
 		return $temp;
+    }
+	
+    /**
+    * @param    int $userType    
+    * @return   array
+    */
+    public function getBooksByUserType($userType){
+		global $g;
+		$users=$g["App"]->getServiceManager()->get("Books\Model\TableManager")->getTable("User")->getUsersByType($userType);
+		$temp=[];
+		foreach($users as $user){
+			$books=$user->getBooks();
+			foreach($books as $book){
+				$temp[]=$book;
+			}
+		}
+		return $temp;
     }    
-
-    
-
 }
 
 
