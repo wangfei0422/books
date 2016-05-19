@@ -11,6 +11,20 @@ namespace Books;
 // mb==true 管理员行为。
 return array(
 	'navigation' => array(
+		'tourist'=>array(
+			 array(
+				'label'		=>'登录',
+				'route'		=>'sign_in',
+			 ),
+			 array(
+				'label'		=>'注册',
+				'route'		=>'sign_up',
+			 ),
+			 array(
+				'label'		=>'去百度',
+				'uri'		=>'http://baidu.com',
+			 ),
+		),
 		'default' => array(
 			 array(
 				'label'		=>'用户',

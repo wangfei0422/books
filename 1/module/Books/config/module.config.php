@@ -42,6 +42,16 @@ return array(
                     ),
                 ),
             ),
+            'sign_up' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route'    => '/sign_up[?last_url=:last_url]',
+                    'defaults' => array(
+                        'controller' => 'Books\Controller\User',
+                        'action'     => 'add',
+                    ),
+                ),
+            ),
             'exit' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -102,6 +112,8 @@ return array(
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
 			'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+			'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+			'tourist-navigation'	 =>'Books\Service\TouristNavigationFactory',
 			
         ),
 		'invokables'=>array(

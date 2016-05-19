@@ -48,7 +48,10 @@
                 <div class="collapse navbar-collapse">
 					<?php global $g;if($g["App"]->getServiceManager()->get("Books\Model\UserManager")->isLogged()):?>
 					<?php echo $this->navigation("navigation")->menu()->setUlClass("nav navbar-nav")->setPartial("books/partials/menu.phtml")->render(); ?>
+					<?php else:?>
+					<?php echo $this->navigation("tourist-navigation")->menu()->setUlClass("nav navbar-nav")->setPartial("books/partials/menu.phtml")->render(); ?>
 					<?php endif;?>
+
 				</div>
             </div>
         </nav>

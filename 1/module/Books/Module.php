@@ -50,7 +50,7 @@ class Module
 					
 		//如果用户未登录，并且请求url非网站入口，则重定向至网站入口进行登录。
 		if(!$userManager->isLogged()){
-			if($routeName!="sign_in" && !in_array($routeName,$tourists)){
+			if($routeName!="sign_up" && $routeName!="sign_in" && !in_array($routeName,$tourists)){
 				$c=$userManager->getContainer();
 				$c["jump_url"]=urlencode($_SERVER['REQUEST_URI']);
 				$indexController->redirect()->toRoute("sign_in");
