@@ -78,7 +78,12 @@ class UserManager{
 		return false;
     }    
     
-    
+    /**
+    * @return   Container
+    */
+    public function getContainer(){
+     	return $this->container;
+    }    
     
 
     

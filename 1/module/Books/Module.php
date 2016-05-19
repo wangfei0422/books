@@ -14,7 +14,8 @@ class Module
     {
         $module= include __DIR__ . '/config/module.config.php';
 		$navigation= include __DIR__ . '/config/navigation.config.php';
-	    return array_merge($module,$navigation);
+		$tourists= include __DIR__ . '/config/tourists.config.php';
+	    return array_merge($module,$navigation,$tourists);
     }
 
     public function getAutoloaderConfig()
@@ -28,6 +29,7 @@ class Module
         );
     }
 	public function onBootstrap($event){
+		//字符编码待解决。。。
 		header('Content-Type: text/html; charset=utf-8');
 		//全局变量
 		global $g;
@@ -44,9 +46,14 @@ class Module
 
 		$indexController	=	$event->getTarget()->getServiceManager()->get("ControllerLoader")->get("Books\Controller\Index");
 		$indexController->setEvent($event);
+		$tourists			=	$event->getTarget()->getServiceManager()->get("Config")["tourists"];
+					
 		//如果用户未登录，并且请求url非网站入口，则重定向至网站入口进行登录。
-		if(!$userManager->isLogged() && $routeName!="sign_in" && $routeName!="main_page"){
-			$indexController->redirect()->toRoute("main_page");
+		if(!$userManager->isLogged()){
+			if($routeName!="sign_in" && !in_array($routeName,$tourists)){
+				($userManager->getContainer())["jump_url"]=urlencode($_SERVER['REQUEST_URI']);
+				$indexController->redirect()->toRoute("sign_in",array("last_url"=>$last_url));
+			}
 		}
 		
 		//管理员权限判断

@@ -5,6 +5,7 @@ namespace Books\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Books\Form\UserForm;
+use Zend\Form\Element;
 class IndexController extends Controller
 {
 
@@ -42,7 +43,11 @@ class IndexController extends Controller
 			if(!is_null($user)){
 				if($user["pw"]==$pw){								////////////////$pw为何为空？
 					$this->um->logIn($user);
-					//$this->redirect()->toRoute("book/default",array('controller'=>'user','action'=>'page'));
+					$c=$this->um->getContainer();
+					if(isset($c["jump_url"])){
+						$jump_url=urldecode($c["jump_url"]);
+						return $this->prg($jump_url,true);
+					}
 					$this->redirect()->toRoute("main_page");					
 				}
 				$this->data["status"]["sucess"]=false;
