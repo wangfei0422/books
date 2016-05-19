@@ -53,7 +53,7 @@ class Module
 			if($routeName!="sign_in" && !in_array($routeName,$tourists)){
 				$c=$userManager->getContainer();
 				$c["jump_url"]=urlencode($_SERVER['REQUEST_URI']);
-				$indexController->redirect()->toRoute("sign_in",array("last_url"=>$last_url));
+				$indexController->redirect()->toRoute("sign_in");
 			}
 		}
 		
