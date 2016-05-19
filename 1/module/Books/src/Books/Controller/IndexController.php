@@ -46,6 +46,7 @@ class IndexController extends Controller
 					$c=$this->um->getContainer();
 					if(isset($c["jump_url"])){
 						$jump_url=urldecode($c["jump_url"]);
+						unset($c["jump_url"]);
 						return $this->prg($jump_url,true);
 					}
 					$this->redirect()->toRoute("main_page");					

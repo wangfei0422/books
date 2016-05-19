@@ -43,6 +43,14 @@ class UserTable extends TableBase{
      	if(is_null($this->getWithName($name)))return false;
 		return true;
     }    
+	
+    /**
+    * @param    array $userType    
+    * @return   array
+    */
+    public function getUsersByType($userType){
+     	
+    }    
 }
 
 
