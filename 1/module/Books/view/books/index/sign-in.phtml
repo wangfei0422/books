@@ -15,3 +15,98 @@ echo $this->formSubmit($form->get('submit'));
 echo $this->form()->closeTag();
 
 var_dump($status);
+?>
+<style>
+body{
+    background: #FFFFFF;
+    font: "微软雅黑";
+}
+    .header{
+    height: 80px;
+        width: 100%;
+    }
+    .wrap{
+    width: 100%;
+}
+    .main{
+    width: 100%;
+    background-image: url('../../img/login-bg.png');
+    background-repeat:no-repeat;
+    min-height: 550px;
+    height: auto;
+    }
+    .myimg{
+    margin-top: 85px;
+    }
+    .right{
+    height:345px;
+        width: 355px;
+        margin:100px auto;
+        background-color:#427994;
+    }
+    .right .title p{
+    letter-spacing:5px;
+        font-size:22px;
+        width: 300px;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        margin: 0 auto;
+        color: #FFFFFF;
+    }
+    .right .center{
+    width: 300px;
+        margin: 0 auto;
+    }
+    .right .center input{
+    width: 298px;
+        height: 40px;
+        padding-left: 10px;
+        margin-top: 20px;
+        font-size: 18px;
+
+    }
+    .footer{
+    width: 100%;
+    height: 80px;
+    }
+</style>
+<div class="wrap">
+    <div class="main container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <div class="myimg"><img class="img-responsive" src="../../img/left.png" alt="" /></div>
+            </div>
+            <div class="col-md-4">
+                <!--用户登录显示div-->
+                <div class="right" style="display:block;">
+                    <div class="title"><p>用户登陆</p></div>
+                    <div class="center">
+                        <form action="" method="post" role="form" onsubmit="return formcheck();">
+                            <input  type="text" id="username" name="username" placeholder="手机号">
+                            <input  type="password" id="password" name="password" placeholder="密码">
+                            <input  style="margin-top:30px;" class="btn btn-sm btn-primary" type="submit" name="submit" value="登 录" >
+                            <input name="token" value="{$_W['token']}" type="hidden" />
+                        </form>
+                    </div>
+                </div>
+                <!--用户注册显示div-->
+                <div class="right" style="display: none;">
+                    <div class="title" style="height: 75px;"><p>用户注册</p></div>
+                    <div class="center">
+                        <form action="" method="post" role="form" onsubmit="return formcheck();">
+                            <input  type="text" id="username" name="username" placeholder="手机号">
+                            <input  style="width: 190px;float: left;"type="password" id="password" name="password" placeholder="验证码">
+                            <input  style="width: 100px;float:  right;" type="button" class="btn btn-primary"id="code" name="code" value="点击获取">
+                            <input  type="" id="password" name="password" placeholder="密码">
+                            <input  class="btn btn-sm btn-primary" type="submit" name="submit" value="注册" >
+                            <input name="token" value="{$_W['token']}" type="hidden" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</div>
