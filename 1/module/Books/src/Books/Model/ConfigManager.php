@@ -29,7 +29,9 @@ class ConfigManager extends ConfigHelper{
     * @return   array
     */
     public function getBookTypes(){
-     	return $this->getConfig(self::BOOK_TYPE_KEY,array("default"));
+     	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
+		if(!in_array("default",$types))$types[]="default";
+		return $types;
     }
     
     /**
@@ -40,7 +42,7 @@ class ConfigManager extends ConfigHelper{
 		if(!is_string($type) || empty($type)) return false;
      	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
 		$types[]=$type;
-		array_unique($types);
+		$types=array_unique($types);
 		$this->saveConfig(self::BOOK_TYPE_KEY,$types);
 		return true;
     }

@@ -21,7 +21,7 @@
 namespace Books\Form;
 
 use		Zend\Form\Form;
-
+use		Zend\Form\FormInterface;
 class UserForm extends Form{            
     /**
     * @param    string $name    
@@ -37,15 +37,15 @@ class UserForm extends Form{
 		$this->add(array(
 			'name'=>'name',
 			'type'=>'Text',
-			'attributes'=>array(
-				'placeholder'=>'用户名',
+			'options'=>array(
+				'label'=>'用户名',
 			),
 		));
 		$this->add(array(
 			'name'=>'pw',
 			'type'=>'Password',
-			'attributes'=>array(
-				'placeholder'=>'密码',
+			'options'=>array(
+				'label'=>'密码',
 			),
 		));
 		$this->add(array(
@@ -74,10 +74,49 @@ class UserForm extends Form{
 			'type'=>'Submit',
 			'attributes'=>array(
 				'value'=>'注册',
-				'id'   =>'submitbutton',
 			),
 		));
-    }  
+		$this->add(array(
+			'name'=>'is_manager',
+			'type'=>'checkbox',
+			'options'=>array(
+				'label'=>'设置为管理员',
+				'checked_value'=>'1',
+				'unchecked_value'=>'0',
+				'label_attributes'=>array('class'=>'checkbox'),
+			),
+			'attributes'=>array(
+				'value'=>'0'
+			),
+		));
+		$this->add(array(
+			'name'=>'user_type',
+			'type'=>'radio',
+			'options'=>array(
+				'label'=>'请选择用户类型',
+				'value_options'=>array(
+					'0'=>'普通用户',
+					'1'=>'大四学生'
+				),
+			),
+			'attributes'=>array(
+				'value'=>'0'
+			),
+		));
+    } 
+	
+	public function getData($flag = FormInterface::VALUES_NORMALIZED){
+		$data=parent::getData($flag);
+		$u=new \Books\Model\User();
+		if($data["is_manager"]==1)$u->setManager(true);
+		else $u->setManager(false);
+		$u->setType($data["is_manager"]);
+		$data['type']=$u['type'];
+		unset($data['is_manager']);
+		unset($data['user_type']);
+		unset($data['submit']);
+		return $data;
+	}
 }
 
 

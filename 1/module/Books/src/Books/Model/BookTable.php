@@ -34,14 +34,14 @@ class BookTable extends TableBase{
 		foreach($books as $book){
 			$temp[]=$book;
 		}
-		$temp2=usort($temp,function($a,$b){
+		usort($temp,function($a,$b){
 			$a_star=$a->getAverageStar();
 			$b_star=$b->getAverageStar();
 			if($a_star == $b_star) return 0;
 			return ($a_star > $b_star) ? -1 : 1;
 		});
-		if($n==0)return $temp2;
-		return array_slice($temp2,0,$n);
+		if($n==0)return $temp;
+		return array_slice($temp,0,$n);
     }
     
     /**
@@ -54,14 +54,14 @@ class BookTable extends TableBase{
 		foreach($books as $book){
 			$temp[]=$book;
 		}
-		$temp2=usort($temp,function($a,$b){
+		usort($temp,function($a,$b){
 			$a_star=$a->getBrowseCount();
 			$b_star=$b->getBrowseCount();
 			if($a_star == $b_star) return 0;
 			return ($a_star > $b_star) ? -1 : 1;
 		});
-		if($n==0)return $temp2;
-		return array_slice($temp2,0,$n);
+		if($n==0)return $temp;
+		return array_slice($temp,0,$n);
     }    
     
     /**
@@ -70,12 +70,28 @@ class BookTable extends TableBase{
     * @return   array
     */
     public function getBooksByType($type="", $books=null){
-		if($books==null)$books=$this->fetchAll();
+		if(is_null($books)){
+			$books=$this->fetchAll();
+		}
 		global $g;
 		$cm=$g["App"]->getServiceManager()->get("Books\Model\ConfigManager");
-		$types=$cm->getBookTypes();
-		if(!in_array($type,$types))return null;
-		if($type!="")$types=[$type];
+		$types_=$cm->getBookTypes();
+		$types=[];
+		if(is_string($type)){
+			if($type==""){
+				$types=$types_;
+			}else{
+				$types[]=$type;
+			}
+		}else if(is_array($type)){
+			$types=$type;
+		}else{
+			return null;
+		}
+		foreach($types as $i=>$type){
+			if(!in_array($type,$types_))unset($types[i]);
+		}
+		if(empty($types))return null;
 		$temp=[];
 		foreach($types as $t){
 			$temp2=array('type'=>$t,'books'=>[]);
@@ -84,7 +100,7 @@ class BookTable extends TableBase{
 					$temp2['books'][]=$book;
 				}
 			}
-			if($t==$type)return $temp2['books'];
+			if(is_string($type) && $t==$type)return $temp2['books'];
 			$temp[]=$temp2;
 		}
 		return $temp;
@@ -92,16 +108,24 @@ class BookTable extends TableBase{
 	
     /**
     * @param    int $userType    
+    * @param    array $books    
     * @return   array
     */
-    public function getBooksByUserType($userType){
-		global $g;
-		$users=$g["App"]->getServiceManager()->get("Books\Model\TableManager")->getTable("User")->getUsersByType($userType);
+    public function getBooksByUserType($userType, $books=null){
 		$temp=[];
-		foreach($users as $user){
-			$books=$user->getBooks();
+		if($books==null){
+			global $g;
+			$users=$g["App"]->getServiceManager()->get("Books\Model\TableManager")->getTable("User")->getUsersByType($userType);
+			$temp=[];
+			foreach($users as $user){
+				$books=$user->getBooks();
+				foreach($books as $book){
+					$temp[]=$book;
+				}
+			}		
+		}else{
 			foreach($books as $book){
-				$temp[]=$book;
+				if($book->getUser()->getType()==$userType) $temp[]=$book;
 			}
 		}
 		return $temp;

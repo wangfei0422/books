@@ -30,9 +30,10 @@ class UserTable extends TableBase{
     */
     public function getWithName($name){
      	$user=$this->fetchAll("",array("name"=>$name));
-		$user=$user->current();
-		if(!$user)return null;
-		return $user;
+		if(count($user)==1){
+			return $user[0];
+		}
+		return null;
     }
 
     /**

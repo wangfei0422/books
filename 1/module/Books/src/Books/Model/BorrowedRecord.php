@@ -83,7 +83,7 @@ class BorrowedRecord extends EntityBase implements InputFilterAwareInterface{
     * @return   boolean
     */
     public function isReturned(){
-     	return $this["borrow_date"]!=$this["return_date"]
+     	return $this["borrow_date"]!=$this["return_date"];
     }
     
     /**

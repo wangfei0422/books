@@ -364,14 +364,25 @@ Action: bookTypeManage
 
     </script>
 </div>
+
 <div class="main" style="display:block;">
     <div class="panel panel-info">
+						<?php
+ 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'User','action'=>'bookTypeManage')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('book_type'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+	var_dump($this->types);
+?>
         <div class="panel-heading">添加图书分类</div>
         <div class="panel-body" style="">
             <form action="" method="get" class="form-horizontal" role="form">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-2 col-md-1 control-label" >
                         <button class="btn btn-default"><i class="fa fa-plus"></i>添加分类</button>
+
                     </div>
                     <div class="col-xs-12 col-sm-2 col-md-2 control-label">
                         <button class="btn btn-default">保存分类</button>
@@ -418,6 +429,7 @@ Action: bookTypeManage
     <div class="panel panel-info">
         <div class="panel-heading">添加图书分类</div>
         <div class="panel-body" style="">
+
             <form action="" method="get" class="form-horizontal" role="form">
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">分类ID</label>
@@ -449,3 +461,4 @@ Action: bookTypeManage
         </div>
     </div>
 </div>
+

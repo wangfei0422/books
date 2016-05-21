@@ -135,7 +135,7 @@ create table Session
 /*==============================================================*/
 create table User
 (
-   id_user              int not null,
+   id_user              int not null AUTO_INCREMENT,
    name                 varchar(32),
    type                 int,
    head_image           varchar(100),

@@ -57,7 +57,6 @@ class User extends EntityBase implements InputFilterAwareInterface{
     */
     public function setType($type){
 		$this["type"]=$this->hf->setMaskValue(self::USER_TYPE_BIT_START,self::USER_TYPE_BIT_LEN,$this["type"],$type);
-		$this->save();
 		return true;
     }
     
@@ -96,7 +95,6 @@ class User extends EntityBase implements InputFilterAwareInterface{
 		$maskValue=1;
 		if($manager)$maskValue=0;				//零是管理员
 		$user["type"]=$this->hf->setMaskValue(self::MANAGER_BIT_START,self::MANAGER_BIT_LEN,$user["type"],$maskValue);
-		$user->save();
 		return true;
     }
     
@@ -317,25 +315,18 @@ class User extends EntityBase implements InputFilterAwareInterface{
 				'name'		=>"id_user",
 				'required'	=>true,
 				'filters'	=>array(
-					array('name'=>'Int'),
-				),
-			));
- 			$inputFilter->add(array(
-				'name'		=>"id_user",
-				'required'	=>true,
-				'filters'	=>array(
-					array('name'=>'Int'),
+					array('name'=>'int'),
 				),
 			));
 			$inputFilter->add(array(
 				'name'		=>"name",
 				'required'	=>true,
 				'filters'	=>array(
-					array('name'=>'StringTrim',),
+					array('name'=>'stringtrim',),
 				),
 				'validators'=>array(
 					array(
-						'name'=>'StringLeng',
+						'name'=>'stringlength',
 						'options'=>array(
 							'encoding'=>'UTF-8',
 							'min'	  =>'1',
@@ -349,11 +340,11 @@ class User extends EntityBase implements InputFilterAwareInterface{
 				'name'		=>"pw",
 				'required'	=>true,
 				'filters'	=>array(
-					array('name'=>'StringTrim',),
+					array('name'=>'stringtrim',),
 				),
 				'validators'=>array(
 					array(
-						'name'=>'StringLeng',
+						'name'=>'stringlength',
 						'options'=>array(
 							'encoding'=>'UTF-8',
 							'min'	  =>'1',
@@ -362,8 +353,20 @@ class User extends EntityBase implements InputFilterAwareInterface{
 					),
 				),
 			)); 
-
-			
+ 			$inputFilter->add(array(
+				'name'		=>"is_manager",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+ 			$inputFilter->add(array(
+				'name'		=>"user_type",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
 			$this->inputFilter=$inputFilter;
 		}
 		return $this->inputFilter;

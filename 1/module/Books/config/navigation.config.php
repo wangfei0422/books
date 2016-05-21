@@ -24,6 +24,28 @@ return array(
 				'label'		=>'去百度',
 				'uri'		=>'http://baidu.com',
 			 ),
+			 array(
+				'label'		=>'友情链接',
+				'uri'		=>'#',
+				'pages'		=>array(
+					 array(
+						'label'		=>'PHP',
+						'uri'		=>'http://php.org',
+					 ),				
+					 array(
+						'label'		=>'百度',
+						'uri'		=>'http://baidu.com',
+					 ),
+					 array(
+						'label'		=>'新浪',
+						'uri'		=>'http://sina.com',
+					 ),
+					 array(
+						'label'		=>'12306',
+						'uri'		=>'http://www.12306.cn',
+					 ),
+				),
+			 ),
 		),
 		'default' => array(
 			 array(
