@@ -3,13 +3,13 @@
 // +------------------------------------------------------------------------+
 // | PHP Version 5                                                          |
 // +------------------------------------------------------------------------+
-// | ×÷Õß£ºÍõÃÎ                                                             |
+// | ä½œè€…ï¼šçŽ‹æ¢¦                                                             |
 // +------------------------------------------------------------------------+
-// | ÀàÎÄ¼þÓÉpowerdesignerÉú³É£¬ÔÚÔ­°æ±¾»ù´¡ÉÏÔö¼ÓÁËÒÔÏÂÊôÐÔ:               |
-// | 1 Ôö¼ÓÁËÃüÃû¿Õ¼äÖ§³Ö                                                   |
-// | 2 Ôö¼ÓÁËsettorºÍgettorÖ§³Ö                                             |
+// | ç±»æ–‡ä»¶ç”±powerdesignerç”Ÿæˆï¼Œåœ¨åŽŸç‰ˆæœ¬åŸºç¡€ä¸Šå¢žåŠ äº†ä»¥ä¸‹å±žæ€§:               |
+// | 1 å¢žåŠ äº†å‘½åç©ºé—´æ”¯æŒ                                                   |
+// | 2 å¢žåŠ äº†settorå’Œgettoræ”¯æŒ                                             |
 // +------------------------------------------------------------------------+
-// | Ê±¼ä£º2016Äê5ÔÂ                                                       |
+// | æ—¶é—´ï¼š2016å¹´5æœˆ                                                       |
 // +------------------------------------------------------------------------+
 //
 
@@ -29,20 +29,30 @@ class ConfigManager extends ConfigHelper{
     * @return   array
     */
     public function getBookTypes(){
-     	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
-		if(!in_array("default",$types))$types[]="default";
+     	$types=$this->getConfig(self::BOOK_TYPE_KEY);
+		if(empty($types)){
+			$types=array(0=>array('name'=>'é»˜è®¤','description'=>'å›¾ä¹¦é»˜è®¤åˆ†ç±»','time'=>date('Y-m-d h:i:s')));
+			$this->saveConfig(self::BOOK_TYPE_KEY,$types);
+		}
 		return $types;
     }
     
     /**
-    * @param    string $type    
+    * @param    string $array    
     * @return   boolean
     */
     public function addBookType($type){
-		if(!is_string($type) || empty($type)) return false;
-     	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
-		$types[]=$type;
-		$types=array_unique($types);
+		if(!is_array($type))return false;
+		$type['time']=date('Y-m-d h:i:s');
+		$types=$this->getBookTypes();
+		$isEdit=false;
+		foreach($types as $i => $t){
+			if($t['name']==$type['name']){
+				$types[$i]=$type;
+				$isEdit=true;
+			}
+		}
+		if(!$isEdit)$types[]=$type;
 		$this->saveConfig(self::BOOK_TYPE_KEY,$types);
 		return true;
     }
@@ -53,23 +63,25 @@ class ConfigManager extends ConfigHelper{
     */
     public function deleteBookType($type){
 		if(!is_string($type) || empty($type)) return false;
-     	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
-		$i=array_search($type,$types);
-		if($i===false) return;
-		unset($types[$i]);
-		$this->saveConfig(self::BOOK_TYPE_KEY,$types);
-		return true;
+     	$types=$this->getConfig(self::BOOK_TYPE_KEY);
+		foreach($types as $i => $t){
+			if($t['name']==$type){
+				unset($types[$i]);
+				$this->saveConfig(self::BOOK_TYPE_KEY,$types);
+				return true;
+			}
+		}
+		return false;
     }
     
     /**
+    * @param    int $type  
     * @return   boolean
     */
-    public function bookTypeExist(){
-		if(!is_string($type) || empty($type)) return false;
-     	$types=$this->getConfig(self::BOOK_TYPE_KEY,array("default"));
-		$i=array_search($type,$types);
-		if($i===false) return false;
-		return true;
+    public function bookTypeExist($type){
+     	$types=$this->getConfig(self::BOOK_TYPE_KEY);
+		if(isset($types[$type]))return true;
+		return false;
     }    
     
     

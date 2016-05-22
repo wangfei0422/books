@@ -42,12 +42,24 @@ class UserController extends Controller
     {	
 		$form=new UserForm();
 		$request=$this->getRequest();
-		if($request->isPost()){
+		if(!$request->isPost()){
+			$qd=$request->getQuery();
+			$id_user=$qd['id_user']
+			$user=$this->tm->getTable("User")->get($id_user);
+			if(!is_null($user)){
+				$form->get("id_user")->setValue($id_user);
+				$form->get("submit")->setValue("确认删除？");
+			}else{
+				$data->data['status']['success']=false;
+				$data->data['status']['message']="您要删除的用户不存在，请确认";
+			}
+		}else{
 			$fd=$form->getData();
 			$user=$this->tm->getTable("User")->get($fd["id_user"]);
 			if(is_null($user))$user->delete();
 			return $this->redirect()->toRoute('book/default',array('controller'=>'user','action'=>'list'));	
 		}
+		$this->data["form"]=$form;
         return new ViewModel($this->data);
     }
 
@@ -56,9 +68,12 @@ class UserController extends Controller
 		//query:id_user
 		$form=new UserForm();
 		$request=$this->getRequest();
-		$qd=$request->getQuery();
-		$form->bind($this->tm->getTable("User")->get($qd['id_user']));			
-		if($request->isPost()){
+		if(!$request->isPost()){
+			$qd=$request->getQuery();
+			$form->bind($this->tm->getTable("User")->get($qd['id_user']));		
+			$form->get("submit")->setValue("提交");			
+		}
+		else{
 			$user=new User();
 			$form->setInputFilter($user->getInputFilter());
 			$form->setData($request->getPost());
@@ -144,7 +159,7 @@ class UserController extends Controller
 		$request=$this->getRequest();
 		if($request->isPost()){
 			$fd=$request->getPost();
-			$cm->addBookType($fd["book_type"]);
+			$cm->addBookType(array('name'=>$fd['name'],'description'=>$fd['description']));
 		}
 		$this->data['form']=$form;
 		$this->data['types']=$this->cm->getBookTypes();

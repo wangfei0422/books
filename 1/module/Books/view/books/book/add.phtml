@@ -1,5 +1,15 @@
-Module: Books
-Controller: Book
-Action: add
-
-
+<?php
+ 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'book','action'=>'add')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('id_book'));
+	echo $this->formRow($form->get('id_user'));
+	echo $this->formRow($form->get('name'));
+	echo $this->formRow($form->get('type'));
+	echo $this->formRow($form->get('thumb_image'));
+	echo $this->formRow($form->get('big_image'));	
+	echo $this->formRow($form->get('description'));
+	echo $this->formRow($form->get('pledge'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+?>

@@ -43,7 +43,7 @@ class Book extends EntityBase implements InputFilterAwareInterface{
 		$this["pledge"]		=	self::DEFAULT_PLEDGE;
 		$this["pledgeExpireTime"]	=	date($this->datetimeFormat);
 		$this["whoWantBook"]		=	-1;
-		$this["pledged"]			=	false;
+		$this["pledged"]			=	0;
 		
 		//FK 指向本表PK的表
 		$this->tablesFkToMe=array("BorrowedRecord");
@@ -200,19 +200,146 @@ class Book extends EntityBase implements InputFilterAwareInterface{
      	return count($this->getBorrowedRecords());
     }    
 	
+	private $inputFilter=null;
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void
     */
     public function setInputFilter(InputFilterInterface $inputFilter){
-     	// TODO: implement
+     	$this->inputFilter=$inputFilter;
     }
     
     /**
     * @return   Zend.InputFilter.InputFilterInterface
     */
     public function getInputFilter(){
-     	// TODO: implement
+     	if(!$this->inputFilter){
+			
+			$inputFilter=new InputFilter();
+ 			$inputFilter->add(array(
+				'name'		=>"id_book",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+ 			$inputFilter->add(array(
+				'name'		=>"id_user",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"type",
+				'required'	=>true,
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'100',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"sub_type",
+				'required'	=>false,
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'100',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"name",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'stringtrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'300',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"thumb_image",
+				'required'	=>false,
+				'filters'	=>array(
+					array('name'=>'stringtrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'100',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"big_image",
+				'required'	=>false,
+				'filters'	=>array(
+					array('name'=>'stringtrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'100',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"description",
+				'required'	=>false,
+				'filters'	=>array(
+					array('name'=>'stringtrim',),
+				),
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'300',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"pledge",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int',),
+				),
+			)); 
+			$inputFilter->add(array(
+				'name'		=>"is_verified",
+				'required'	=>false,
+			)); 
+			$this->inputFilter=$inputFilter;
+		}
+		return $this->inputFilter;
     }
     
     

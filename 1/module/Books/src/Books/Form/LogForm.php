@@ -22,7 +22,7 @@ namespace Books\Form;
 
 use		Zend\Form\Form;
 
-class LogFrom extends Form{
+class LogForm extends Form{
 
 }
 

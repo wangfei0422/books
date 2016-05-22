@@ -28,13 +28,20 @@ class BookTypeForm extends Form{
     * @return   void
     */
     public function __construct($name=null){
-     	parent::__construct("booktypes");
+     	parent::__construct("book_type");
 		$this->setAttribute('method', 'POST');
 		$this->add(array(
-			'name'=>'book_type',
+			'name'=>'name',
 			'type'=>'Text',
 			'options'=>array(
 				'label'=>'图书类型',
+			),
+		));
+		$this->add(array(
+			'name'=>'description',
+			'type'=>'Text',
+			'options'=>array(
+				'label'=>'类型描述',
 			),
 		));
 		$this->add(array(

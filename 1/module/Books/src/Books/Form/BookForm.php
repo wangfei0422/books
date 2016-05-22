@@ -22,7 +22,7 @@ namespace Books\Form;
 
 use		Zend\Form\Form;
 use		Zend\Form\FormInterface;
-class BookFrom extends Form{            
+class BookForm extends Form{            
 
     /**
     * @param    string $name    
@@ -30,26 +30,35 @@ class BookFrom extends Form{
     */
     public function __construct($name=null){
      	parent::__construct("book");
-		//id_user,name,type,head_image,qq_number,mail,status,pw
+		//id_book,type,sub_type,name,thumb_image,big_image,id_user,description,pledge,status
 		$this->add(array(
 			'name'=>'id_book',
 			'type'=>'Hidden',
 		));
+		$this->add(array(
+			'name'=>'id_user',
+			'type'=>'Hidden',
+		));
 		global $g;
 		$types=$g["App"]->getServiceManager()->get("Books\Model\ConfigManager")->getBookTypes();
+		$typesName=[];
+		foreach($types as $i=>$type){
+			$typesName[$i]=$type["name"];
+		}
 		$this->add(array(
 			'name'=>'type',
 			'type'=>'Select',
 			'options'=>array(
 				'label'=>'请选择图书类型',
-				'value_options'=>$types;
+				'value_options'=>$typesName,
 			),
 		));
 		$this->add(array(
 			'name'=>'sub_type',
-			'type'=>'Text',
+			'type'=>'Select',
 			'options'=>array(
-				'label'=>'子类型',
+				'label'=>'请选择图书子类型',
+				'value_options'=>array('0'=>'默认'),
 			),
 		));
 		$this->add(array(
@@ -86,6 +95,7 @@ class BookFrom extends Form{
 			'options'=>array(
 				'label'=>'押金',
 			),
+			'attributes'=>array('value'=>0,),
 		));
 		$this->add(array(
 			'name'=>'submit',
@@ -94,7 +104,7 @@ class BookFrom extends Form{
 				'value'=>'添加',
 			),
 		));
-		$this->add(array(
+ 		$this->add(array(
 			'name'=>'is_verified',
 			'type'=>'checkbox',
 			'options'=>array(
@@ -110,11 +120,12 @@ class BookFrom extends Form{
 	}
 	
 	
-	public function getData($flag = FormInterface::VALUES_NORMALIZED){
+ 	public function getData($flag = FormInterface::VALUES_NORMALIZED){
 		$data=parent::getData($flag);
+		unset($data['submit']);
 		unset($data['is_verified']);
 		return $data;
-	}
+	} 
 }
 
 

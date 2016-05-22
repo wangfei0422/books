@@ -78,24 +78,62 @@ class Article extends EntityBase implements InputFilterAwareInterface{
      	$this->hf->setMaskValue(self::BROWSE_COUNT_BIT_START,self::BROWSE_COUNT_BIT_LEN,$this["status"],$v);
     }
 	
+	private $inputFilter=null;
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void
     */
     public function setInputFilter(InputFilterInterface $inputFilter){
-     	// TODO: implement
+     	$this->inputFilter=$inputFilter;
     }
     
     /**
     * @return   Zend.InputFilter.InputFilterInterface
     */
     public function getInputFilter(){
-     	// TODO: implement
+     	if(!$this->inputFilter){
+			
+			$inputFilter=new InputFilter();
+ 			$inputFilter->add(array(
+				'name'		=>"id_article",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+ 			$inputFilter->add(array(
+				'name'		=>"id_user",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"title",
+				'required'	=>true,
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'1',
+							'max'	  =>'100',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"content",
+				'required'	=>true,
+			));
+			$inputFilter->add(array(
+				'name'		=>"is_verified",
+				'required'	=>false,
+			)); 
+			$this->inputFilter=$inputFilter;
+		}
+		return $this->inputFilter;
     }
-    
-    
-
-    
 
 }
 

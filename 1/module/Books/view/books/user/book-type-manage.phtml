@@ -371,7 +371,8 @@ Action: bookTypeManage
  	$form->setAttribute('action', $this->url('book/default',array('controller'=>'User','action'=>'bookTypeManage')));
 	$form->prepare();
 	echo $this->form()->openTag($form);
-	echo $this->formRow($form->get('book_type'));
+	echo $this->formRow($form->get('name'));
+	echo $this->formRow($form->get('description'));
 	echo $this->formSubmit($form->get('submit'));
 	echo $this->form()->closeTag(); 
 	var_dump($this->types);
