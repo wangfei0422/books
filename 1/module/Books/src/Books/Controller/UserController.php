@@ -44,7 +44,7 @@ class UserController extends Controller
 		$request=$this->getRequest();
 		if(!$request->isPost()){
 			$qd=$request->getQuery();
-			$id_user=$qd['id_user']
+			$id_user=$qd['id_user'];
 			$user=$this->tm->getTable("User")->get($id_user);
 			if(!is_null($user)){
 				$form->get("id_user")->setValue($id_user);

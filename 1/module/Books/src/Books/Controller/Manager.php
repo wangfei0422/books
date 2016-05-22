@@ -71,7 +71,7 @@ class Manager implements AbstractFactoryInterface{
 			$c->setData(array(
 				"u"=>$u,
 				"status"=>array(
-					"sucess"=>true,
+					"success"=>true,
 					"message"=>"You are sucessful for executing the action.This is the default message.",
 				),
 			));

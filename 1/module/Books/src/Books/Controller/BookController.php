@@ -46,7 +46,7 @@ class BookController extends Controller
 		$request=$this->getRequest();
 		if(!$request->isPost()){
 			$qd=$request->getQuery();
-			$id_book=$qd['id_book']
+			$id_book=$qd['id_book'];
 			$book=$this->tm->getTable("Book")->get($id_book);
 			if(!is_null($book)){
 				$form->get("id_book")->setValue($id_book);
@@ -92,7 +92,7 @@ class BookController extends Controller
     public function listAction()
     {
 		//query id_user page
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_user=0;
 		if(isset($qd["id_user"])){
 			$id_user=$qd["id_user"];
@@ -104,7 +104,7 @@ class BookController extends Controller
 			$books=$user->getBooks();
 			$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($books));
 		}else{
-			$paginator=$this->tm->getTable("Books")->fetchAll("","",-1,-1,true);
+			$paginator=$this->tm->getTable("Book")->fetchAll("","",-1,-1,true);
 		}
 		$paginator->setCurrentPageNumber($page);
 		$this->data["paginator"]=$paginator;
@@ -114,18 +114,18 @@ class BookController extends Controller
     public function pageAction()
     {
 		//query id_book
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=>$this->tm->getTable("Book")->get($id_book);
+		$this->data["book"]=$this->tm->getTable("Book")->get($id_book);
         return new ViewModel($this->data);
     }
 
     public function borrowAction()
     {
 		//query id_book
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=$book=this->tm->getTable("Book")->get($id_book);
+		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->borrowBookRequest($book);
         return new ViewModel($this->data);
     }
@@ -133,9 +133,9 @@ class BookController extends Controller
     public function cancelAction()
     {
 		//query id_book
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=$book=this->tm->getTable("Book")->get($id_book);
+		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->borrowBookCancel($book);
         return new ViewModel($this->data);
     }
@@ -145,7 +145,7 @@ class BookController extends Controller
 		//query id_book
 		$qd=$this->getRequest();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=$book=this->tm->getTable("Book")->get($id_book);
+		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->returnBook($book);
         return new ViewModel($this->data);
     }
@@ -155,7 +155,7 @@ class BookController extends Controller
 		//query id_book
 		$qd=$this->getRequest();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=$book=this->tm->getTable("Book")->get($id_book);
+		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->payPledge($book);
         return new ViewModel($this->data);
     }

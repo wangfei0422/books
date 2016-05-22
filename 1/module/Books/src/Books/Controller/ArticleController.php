@@ -101,7 +101,7 @@ class ArticleController extends Controller
 			$articles=$user->getArticles();
 			$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($articles));
 		}else{
-			$paginator=$this->tm->getTable("Articles")->fetchAll("","",-1,-1,true);
+			$paginator=$this->tm->getTable("Article")->fetchAll("","",-1,-1,true);
 		}
 		$paginator->setCurrentPageNumber($page);
 		$this->data["paginator"]=$paginator;

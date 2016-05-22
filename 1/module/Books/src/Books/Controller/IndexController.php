@@ -75,10 +75,10 @@ class IndexController extends Controller
 					}
 					return $this->redirect()->toRoute("main_page");					
 				}
-				$this->data["status"]["sucess"]=false;
+				$this->data["status"]["success"]=false;
 				$this->data["status"]["message"]="密码错误，请核对密码。";
 			}else{
-				$this->data["status"]["sucess"]=false;
+				$this->data["status"]["success"]=false;
 				$this->data["status"]["message"]="用户不存在，请核对用户名。";
 			}
 		}
