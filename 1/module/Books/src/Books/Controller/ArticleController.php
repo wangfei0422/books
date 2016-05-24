@@ -52,12 +52,12 @@ class ArticleController extends Controller
 				$form->get("id_article")->setValue($id_article);
 				$form->get("submit")->setValue("确认删除？");
 			}else{
-				$data->data['status']['success']=false;
-				$data->data['status']['message']="您要删除的文章不存在，请确认";
+				$this->data['status']['success']=false;
+				$this->data['status']['message']="您要删除的文章不存在，请确认";
 			}
 		}else{
-			$fd=$form->getData();
-			$article=$this->tm->getTable("Article")->get($fd["id_article"]);
+			$pd=$request->getPost();
+			$article=$this->tm->getTable("Article")->get($pd["id_article"]);
 			if(!is_null($article))$article->delete();
 			return $this->redirect()->toRoute('book/default',array('controller'=>'article','action'=>'list'),array('query'=>array('id_user'=>$this->u['id_user'],'page'=>1)));	
 		}
@@ -82,7 +82,7 @@ class ArticleController extends Controller
 				$article->exchangeArray($form->getData());
 				$article->save();
 				$id_article=$article['id_article'];
-				$this->redirect()->toRoute('book/default',array('controller'=>'article','action'=>'page'),array('query'=>array('id_art'=>$id_article)));
+				$this->redirect()->toRoute('book/default',array('controller'=>'article','action'=>'page'),array('query'=>array('id_article'=>$id_article)));
 			}
 		}
 		$this->data['form']=$form;
@@ -93,7 +93,7 @@ class ArticleController extends Controller
     {
 		//query id_user page
 		$qd=$this->getRequest()->getQuery();
-		$id_user=$qd["id_user"];
+		$this->data["id_user"]=$id_user=$qd["id_user"];
 		$page=$qd["page"];
 		$user=$this->tm->getTable("User")->get($id_user);
 		$paginator=null;
@@ -104,6 +104,7 @@ class ArticleController extends Controller
 			$paginator=$this->tm->getTable("Article")->fetchAll("","",-1,-1,true);
 		}
 		$paginator->setCurrentPageNumber($page);
+		//$paginator->setItemCountPerPage(1);
 		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
@@ -111,7 +112,7 @@ class ArticleController extends Controller
     public function pageAction()
     {
 		//query id_article
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_article=$qd["id_article"];
 		$this->data["article"]=$this->tm->getTable("Article")->get($id_article);
         return new ViewModel($this->data);

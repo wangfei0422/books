@@ -1,3 +1,15 @@
-Module: Books
-Controller: User
-Action: edit
+<?php
+ 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'user','action'=>'edit')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('id_user'));
+	echo $this->formRow($form->get('name'));
+	echo $this->formRow($form->get('pw'));
+	echo $this->formRow($form->get('head_image'));
+	echo $this->formRow($form->get('qq_number'));
+	echo $this->formRow($form->get('mail'));	
+	echo $this->formRow($form->get('is_manager'));
+	echo $this->formRow($form->get('user_type'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+?>

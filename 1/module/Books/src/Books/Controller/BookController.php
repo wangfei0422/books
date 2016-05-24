@@ -52,12 +52,12 @@ class BookController extends Controller
 				$form->get("id_book")->setValue($id_book);
 				$form->get("submit")->setValue("确认删除？");
 			}else{
-				$data->data['status']['success']=false;
-				$data->data['status']['message']="您要删除的图书不存在，请确认";
+				$this->data['status']['success']=false;
+				$this->data['status']['message']="您要删除的图书不存在，请确认";
 			}
 		}else{
-			$fd=$form->getData();
-			$book=$this->tm->getTable("Book")->get($fd["id_book"]);
+			$pd=$form->getData();
+			$book=$this->tm->getTable("Book")->get($pd["id_book"]);
 			if(!is_null($book))$book->delete();
 			return $this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'list'),array('query'=>array('id_user'=>$this->u['id_user'],'page'=>1)));	
 		}
@@ -93,10 +93,7 @@ class BookController extends Controller
     {
 		//query id_user page
 		$qd=$this->getRequest()->getQuery();
-		$id_user=0;
-		if(isset($qd["id_user"])){
-			$id_user=$qd["id_user"];
-		}
+		$this->data["id_user"]=$id_user=$qd["id_user"];
 		$page=$qd["page"];
 		$user=$this->tm->getTable("User")->get($id_user);
 		$paginator=null;

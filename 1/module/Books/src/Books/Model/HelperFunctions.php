@@ -32,7 +32,7 @@ class HelperFunctions{
     */
     public function getMaskValue($start, $length, $target){
 		//$mask=(2**($length+1)-1) << $start;
-		$mask=(pow(2,($length+1))-1) << $start;
+		$mask=(pow(2,($length))-1) << $start;
 		$target &= $mask;
 		return $target >> $start;
     }
@@ -46,7 +46,7 @@ class HelperFunctions{
     */
     public function setMaskValue($start, $length, $target, $value){
 		//$mask=(2**($length+1)-1) << $start;
-		$mask=(pow(2,($length+1))-1) << $start;
+		$mask=(pow(2,($length))-1) << $start;
 		$target &= ~$mask;
 		$value <<= $start;
 		$value &= $mask;

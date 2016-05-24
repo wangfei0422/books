@@ -1,3 +1,11 @@
-Module: Books
-Controller: Article
-Action: edit
+<?php
+ 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'article','action'=>'edit')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('id_article'));
+	echo $this->formRow($form->get('id_user'));
+	echo $this->formRow($form->get('title'));
+	echo $this->formRow($form->get('content'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+?>

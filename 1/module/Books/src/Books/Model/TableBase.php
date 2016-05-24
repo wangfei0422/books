@@ -131,7 +131,7 @@ class TableBase{
 			$this->tableGateway->insert($data);
 		} else {
 			if ($this->get($id)) {
-				$this->tableGateway->update($data, array('id' => $id));
+				$this->tableGateway->update($data, array($this->pk => $id));
 			} else if(is_string($id)){
 				$this->tableGateway->insert($data);
 			} else{

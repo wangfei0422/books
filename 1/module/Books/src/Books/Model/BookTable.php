@@ -55,8 +55,8 @@ class BookTable extends TableBase{
 			$temp[]=$book;
 		}
 		usort($temp,function($a,$b){
-			$a_star=$a->getBrowseCount();
-			$b_star=$b->getBrowseCount();
+			$a_star=$a->getBorrowCount();
+			$b_star=$b->getBorrowCount();
 			if($a_star == $b_star) return 0;
 			return ($a_star > $b_star) ? -1 : 1;
 		});
