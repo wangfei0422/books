@@ -3,4 +3,4 @@
 	echo '<br/>';
 	var_dump($article->getArrayCopy());
 ?>
-<a href="<?php $this->url("book/default",array('controller'=>'ArticleFeedback','action'=>'add'),array('id_article'=>$article['id_article']));?>">添加回复</a>
+<a href="<?php echo $this->url("book/default",array('controller'=>'ArticleFeedback','action'=>'add'),array('query'=>array('id_article'=>$article['id_article'])));?>">添加回复</a>

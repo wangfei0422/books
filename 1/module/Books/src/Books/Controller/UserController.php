@@ -91,7 +91,12 @@ class UserController extends Controller
 
     public function listAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]? :1;
+		$paginator=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 
