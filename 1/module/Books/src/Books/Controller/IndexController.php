@@ -27,6 +27,8 @@ class IndexController extends Controller
  		$u=$this->tm->getTable("User");
 		$b=$this->tm->getTable("Book");
 		$a=$this->tm->getTable("Article");
+		//图书类型
+		$this->data["book_types"]=$this->cm->getBookTypes();
 		//图书推荐
 		$this->data["books_top_borrowed"]=$books=$b->getTopBorrowed();
 		//大四专场

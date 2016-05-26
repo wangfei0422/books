@@ -34,6 +34,9 @@ class ConfigManager extends ConfigHelper{
 			$types=array(0=>array('name'=>'默认','description'=>'图书默认分类','time'=>date('Y-m-d h:i:s')));
 			$this->saveConfig(self::BOOK_TYPE_KEY,$types);
 		}
+		foreach($types as $id => $type){
+			$types[$id]["id"]=$id;
+		}
 		return $types;
     }
     
@@ -79,12 +82,26 @@ class ConfigManager extends ConfigHelper{
     * @return   boolean
     */
     public function bookTypeExist($type){
-     	$types=$this->getConfig(self::BOOK_TYPE_KEY);
-		if(isset($types[$type]))return true;
+		if(is_int($type)){
+			$types=$this->getConfig(self::BOOK_TYPE_KEY);
+			if(isset($types[$type]))return true;			
+		}else if(is_string($type) && $this->getTypeId($type)!==false){
+			return true;
+		}
 		return false;
     }    
     
-    
+    /**
+    * @param    string $type    
+    * @return   string
+    */
+    public function getTypeId($type){
+		$types=$this->getConfig(self::BOOK_TYPE_KEY);
+		foreach($types as $i => $t){
+			if($t['name']==$type)return (string)$i;
+		}
+		return false;
+    }    
     
 
     
