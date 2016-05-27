@@ -165,6 +165,7 @@ class EntityBase extends ArrayObject{
 		if(isset($temp["extension"]))unset($temp["extension"]);
 		if(!isset($temp[$pk]))$temp[$pk]=0;
 		//var_dump($temp);
+		//exit();
      	return $this->getTable()->save($temp);
     }
     

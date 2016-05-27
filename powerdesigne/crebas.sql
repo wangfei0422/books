@@ -85,14 +85,14 @@ create table BookFeedback
 /*==============================================================*/
 create table BorrowedRecord
 (
-   id_book_borrowd      int not null AUTO_INCREMENT,
+   id_book_borrowed      int not null AUTO_INCREMENT,
    id_user              int,
    id_book              int,
    borrow_date          datetime,
    borrow_days          int,
    return_date          datetime,
    whoPayPledge         int,
-   primary key (id_book_borrowd)
+   primary key (id_book_borrowed)
 );
 
 /*==============================================================*/
@@ -159,7 +159,7 @@ alter table Book add constraint FK_Reference_1 foreign key (id_user)
       references User (id_user) on delete restrict on update restrict;
 
 alter table BookFeedback add constraint FK_Reference_5 foreign key (id_book_borrowed)
-      references BorrowedRecord (id_book_borrowd) on delete restrict on update restrict;
+      references BorrowedRecord (id_book_borrowed) on delete restrict on update restrict;
 
 alter table BookFeedback add constraint FK_Reference_6 foreign key (id_user)
       references User (id_user) on delete restrict on update restrict;

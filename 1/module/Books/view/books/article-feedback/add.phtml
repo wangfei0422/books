@@ -1,3 +1,11 @@
-Module: Books
-Controller: ArticleFeedback
-Action: add
+<?php
+ 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'ArticleFeedback','action'=>'add')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('id'));
+	echo $this->formRow($form->get('id_article'));
+	echo $this->formRow($form->get('id_user'));
+	echo $this->formRow($form->get('feedback'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+?>

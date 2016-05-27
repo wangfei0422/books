@@ -55,8 +55,8 @@ class BookTable extends TableBase{
 			$temp[]=$book;
 		}
 		usort($temp,function($a,$b){
-			$a_star=$a->getBrowseCount();
-			$b_star=$b->getBrowseCount();
+			$a_star=$a->getBorrowCount();
+			$b_star=$b->getBorrowCount();
 			if($a_star == $b_star) return 0;
 			return ($a_star > $b_star) ? -1 : 1;
 		});
@@ -81,27 +81,28 @@ class BookTable extends TableBase{
 			if($type==""){
 				$types=$types_;
 			}else{
-				$types[]=$type;
+				$type=array($type);
 			}
-		}else if(is_array($type)){
-			$types=$type;
-		}else{
+		}else if(!is_array($type)){
 			return null;
 		}
-		foreach($types as $i=>$type){
-			if(!in_array($type,$types_))unset($types[i]);
+		if(empty($types)){
+			foreach($types as $i=>$t){
+				if(!in_array($t["name"],$type))unset($types[$i]);
+			}			
 		}
+		$types=array_values($types);
 		if(empty($types))return null;
 		$temp=[];
-		foreach($types as $t){
+		foreach($types as $i=>$t){
 			$temp2=array('type'=>$t,'books'=>[]);
 			foreach($books as $book){
-				if($book['type']==$t){
+				if($book['type']==$t['id']){
 					$temp2['books'][]=$book;
 				}
 			}
-			if(is_string($type) && $t==$type)return $temp2['books'];
-			$temp[]=$temp2;
+			if(is_string($type) && $t['name']==$type)return $temp2['books'];
+			if(count($temp2['books'])>0)$temp[]=$temp2;
 		}
 		return $temp;
     }

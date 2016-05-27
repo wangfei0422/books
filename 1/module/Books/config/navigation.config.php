@@ -74,41 +74,58 @@ return array(
 			 ),
 
 			 array(
-				'mb'		=>true,
 				'label'		=>'管理',
 				'uri'		=>'',
 				'pages'		=>array(
 					array(
+						'label'		=>'添加图书',
+						'route'		=>'book/default',
+						'controller'=>'book',
+						'action'	=>'add',	
+					),
+					array(
+						'label'		=>'添加文章',
+						'route'		=>'book/default',
+						'controller'=>'article',
+						'action'	=>'add',	
+					),
+					array(
+						'mb'		=>true,
 						'label'		=>'用户管理',
 						'route'		=>'book/default',
 						'controller'=>'user',
 						'action'	=>'userManage',	
 					),
 					array(
+						'mb'		=>true,
 						'label'		=>'图书管理',
 						'route'		=>'book/default',
 						'controller'=>'user',
 						'action'	=>'bookManage',	
 					),
 					array(
+						'mb'		=>true,
 						'label'		=>'图书评论管理',
 						'route'		=>'book/default',
 						'controller'=>'user',
 						'action'	=>'bookFeedbackManage',	
 					),
 					array(
+						'mb'		=>true,
 						'label'		=>'文章管理',
 						'route'		=>'book/default',
 						'controller'=>'user',
 						'action'	=>'articleManage',	
 					),
 					array(
+						'mb'		=>true,
 						'label'		=>'文章类型管理',
 						'route'		=>'book/default',
 						'controller'=>'user',
 						'action'	=>'bookTypeManage',	
 					),
 					array(
+						'mb'		=>true,
 						'label'		=>'文章评论管理',
 						'route'		=>'book/default',
 						'controller'=>'user',

@@ -35,7 +35,7 @@ class TableManager{
 		"ArticleFeedback"=>"id",
 		"Article"=>"id_article",
 		"BookFeedback"=>"id",
-		"BorrowedRecord"=>"id_borrowed_book",
+		"BorrowedRecord"=>"id_book_borrowed",
 		"Book"=>"id_book",
 		"Log"=>"id",
 		"User"=>"id_user",
@@ -77,7 +77,7 @@ class TableManager{
     * @return   boolean
     */
     public function deleteWith($tables, EntityBase $entity){
-		if(empty($table)) return;
+		if(empty($tables)) return;
 		$allTables=array_keys($this->pks);
 		foreach($tables as $table){
 			if(in_array($table,$allTables)){

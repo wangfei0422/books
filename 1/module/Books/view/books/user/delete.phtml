@@ -1,3 +1,15 @@
-Module: Books
-Controller: User
-Action: delete
+<?php if($status["success"]):?>
+	<?php
+	var_dump($status);
+		$form->setAttribute('action', $this->url('book/default',array('controller'=>'user','action'=>'delete')));
+		$form->prepare();
+		echo $this->form()->openTag($form);
+		echo $this->formRow($form->get('id_user'));
+		echo $this->formSubmit($form->get('submit'));
+		echo $this->form()->closeTag();
+	?>
+<?php else: ?>
+	<?php
+		echo $status["message"];
+	?>
+<?php endif;?>

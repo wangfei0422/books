@@ -29,8 +29,9 @@ class UserController extends Controller
 				$user->exchangeArray($form->getData());
 				if(!$this->tm->getTable("User")->hasUser($user['name'])){
 					$user->save();
+					$user=$this->tm->getTable("User")->getWithName($user["name"]);
 					$this->um->logIn($user);
-					return $this->redirect()->toRoute('home');					
+					return $this->redirect()->toRoute('main_page');					
 				}
 			}
 		}
@@ -50,13 +51,13 @@ class UserController extends Controller
 				$form->get("id_user")->setValue($id_user);
 				$form->get("submit")->setValue("确认删除？");
 			}else{
-				$data->data['status']['success']=false;
-				$data->data['status']['message']="您要删除的用户不存在，请确认";
+				$this->data['status']['success']=false;
+				$this->data['status']['message']="您要删除的用户不存在，请确认";
 			}
 		}else{
-			$fd=$form->getData();
-			$user=$this->tm->getTable("User")->get($fd["id_user"]);
-			if(is_null($user))$user->delete();
+			$pd=$request->getPost();
+			$user=$this->tm->getTable("User")->get($pd["id_user"]);
+			if(!is_null($user))$user->delete();
 			return $this->redirect()->toRoute('book/default',array('controller'=>'user','action'=>'list'));	
 		}
 		$this->data["form"]=$form;
@@ -70,7 +71,7 @@ class UserController extends Controller
 		$request=$this->getRequest();
 		if(!$request->isPost()){
 			$qd=$request->getQuery();
-			$form->bind($this->tm->getTable("User")->get($qd['id_user']));		
+			$form->bind($this->tm->getTable("User")->get($qd['id_user']));	
 			$form->get("submit")->setValue("提交");			
 		}
 		else{
@@ -90,7 +91,12 @@ class UserController extends Controller
 
     public function listAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]? :1;
+		$paginator=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 

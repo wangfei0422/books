@@ -110,7 +110,7 @@ class UserForm extends Form{
 		$u=new \Books\Model\User();
 		if($data["is_manager"]==1)$u->setManager(true);
 		else $u->setManager(false);
-		$u->setType($data["is_manager"]);
+		$u->setType($data["user_type"]);
 		$data['type']=$u['type'];
 		unset($data['is_manager']);
 		unset($data['user_type']);

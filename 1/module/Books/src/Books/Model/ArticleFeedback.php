@@ -48,24 +48,66 @@ class ArticleFeedback extends EntityBase implements InputFilterAwareInterface{
      	return $this->tm->getTable("Article")->get($this["id_article"]);
     }    
     
+	private $inputFilter=null;
     /**
     * @param    InputFilterInterface $inputFilter    
     * @return   void
     */
     public function setInputFilter(InputFilterInterface $inputFilter){
-     	// TODO: implement
+     	$this->inputFilter=$inputFilter;
     }
     
     /**
     * @return   Zend.InputFilter.InputFilterInterface
     */
     public function getInputFilter(){
-     	// TODO: implement
+     	if(!$this->inputFilter){
+			
+			$inputFilter=new InputFilter();
+ 			$inputFilter->add(array(
+				'name'		=>"id",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+			
+ 			$inputFilter->add(array(
+				'name'		=>"id_article",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+ 			$inputFilter->add(array(
+				'name'		=>"id_user",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"feedback",
+				'required'	=>true,
+				'validators'=>array(
+					array(
+						'name'=>'stringlength',
+						'options'=>array(
+							'encoding'=>'UTF-8',
+							'min'	  =>'5',
+							'max'	  =>'300',
+						),
+					),
+				),
+			));
+			$inputFilter->add(array(
+				'name'		=>"is_verified",
+				'required'	=>false,
+			)); 
+			$this->inputFilter=$inputFilter;
+		}
+		return $this->inputFilter;
     }
-    
-    
-
-    
 
 }
 

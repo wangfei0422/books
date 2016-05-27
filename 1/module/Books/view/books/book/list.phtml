@@ -1,87 +1,13 @@
-Module: Books
-Controller: Book
-Action: list
-<style type="text/css">
-    div.article-wrap{
-        width: 90%;
-        margin: 0px auto;
-    }
-    div.article{
-        border-bottom: 1px solid darkgrey;
-        padding:30px 20px;
-    }
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+<li>
+	<?php echo $item['name']; ?>
+	<a href="<?php echo $this->url("book/default",array('controller'=>'book','action'=>'delete'),array('query'=>array('id_book'=>$item["id_book"])));?>">删除</a>
+	<a href="<?php echo $this->url("book/default",array('controller'=>'book','action'=>'edit'),array('query'=>array('id_book'=>$item["id_book"])));?>">编辑</a>
+</li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
 
-    div.article-center ul{
-        list-style-type: none;
-    }
-    div.article-center ul a{
-        color: inherit;
-        text-decoration: none;
-    }
-    div.article-center ul a:hover{
-        color:cornflowerblue;
-        text-decoration: none;
-    }
-    div.article-header{
-        margin-top:0px;
-
-    }
-    div.btn-group>button{
-        margin-right:5px;
-    }
-    div.btn-toolbar{
-        padding-top:20px;
-    }
-    footer{
-        width: 90%;
-        margin:0px auto;
-        margin-top:30px;
-    }
-</style>
-<div class="article-wrap">
-    <div class="article-header">
-        <h2>图书借阅 <span style="padding-left:30px;font-size: 22px;">分享交流</span></h2>
-    </div>
-    <div class="article-center">
-        <ul>
-            <li>
-                <a href="./index">
-                    <div class="article">
-                        <h3 class="article-title">卖火柴的小女孩有感</h3>
-                        <p class="author">作者：小王  |  发表日期：2016/4/30  |  阅读次数：20次  </p>
-                        <p class="article-text">从前有一个卖火柴的小女孩，无意中听到别人口中说起的卖女孩的小火柴。</p>
-                        <p class="article-text">&gt;&gt;点击阅读详情</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="./index">
-                    <div class="article">
-                        <h3 class="article-title">卖火柴的小女孩有感</h3>
-                        <p class="author">作者：小王  |  发表日期：2016/4/30  |  阅读次数：20次  </p>
-                        <p class="article-text">从前有一个卖火柴的小女孩，无意中听到别人口中说起的卖女孩的小火柴。</p>
-                        <p class="article-text">&gt;&gt;点击阅读详情</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="./index">
-                    <div class="article">
-                        <h3 class="article-title">卖火柴的小女孩有感</h3>
-                        <p class="author">作者：小王  |  发表日期：2016/4/30  |  阅读次数：20次  </p>
-                        <p class="article-text">从前有一个卖火柴的小女孩，无意中听到别人口中说起的卖女孩的小火柴。</p>
-                        <p class="article-text">&gt;&gt;点击阅读详情</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
-        <div class="btn-toolbar" role="toolbar" >
-            <div class="btn-group pull-right" role="group" >
-                <button type="button" class="btn btn-info">上一页</button>
-                <button type="button" class="btn btn-info">1</button>
-                <button type="button" class="btn btn-info">2</button>
-                <button type="button" class="btn btn-info">3</button>
-                <button type="button" class="btn btn-info">下一页</button>
-            </div>
-        </div>
-    </div>
+<?php echo $this->paginationControl($this->paginator,'Sliding','books/partials/pagination_control.phtml', array('route'=>'book/default','controller' => 'book','action'=>'list','id_user'=>$id_user)); ?>

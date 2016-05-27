@@ -104,12 +104,8 @@
 				<div class="book-center">
 					<img src="img/book01.jpg" alt="" width="270px" height="150px">
 					<div class="book-text">
-						<p class="title"><?php echo $item["type"];?></p>
-						<?php if(count($item["books"])==0):?>
-							<p class="brief"><?php echo count($item["books"])."本书";?></p>
-						<?php else:?>
-							<p class="brief">此目录为空</p>
-						<?php endif;?>
+						<p class="title"><?php echo $item["type"]["name"]."(".count($item["books"]).")";?></p>
+						<p class="brief"><?php echo $item["type"]['description'];?></p>
 					</div>
 				</div>
 			</div>

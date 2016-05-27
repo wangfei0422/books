@@ -1,0 +1,13 @@
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+<li>
+	<?php echo $item['name'];?>
+	<a href="<?php echo $this->url("book/default",array('controller'=>'user','action'=>'delete'),array('query'=>array('id_user'=>$item["id_user"])));?>">删除</a>
+	<a href="<?php echo $this->url("book/default",array('controller'=>'user','action'=>'edit'),array('query'=>array('id_user'=>$item["id_user"])));?>">编辑</a>
+</li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,'Sliding','books/partials/pagination_control.phtml', array('route'=>'book/default','controller' => 'user','action'=>'list')); ?>
