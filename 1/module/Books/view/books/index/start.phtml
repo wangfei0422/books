@@ -93,8 +93,8 @@
         <div class="head-center">
             <ul>
                 <li class="head-text">大四图书专场</li>
-                <li>共享交流</li>
-                <li>以书会友</li>
+<!--                <li>共享交流</li>
+                <li>以书会友</li> -->
             </ul>
         </div>
     </div>
@@ -104,50 +104,21 @@
 				<div class="book-center">
 					<img src="img/book01.jpg" alt="" width="270px" height="150px">
 					<div class="book-text">
-						<p class="title"><?php echo $item["type"]["name"]."(".count($item["books"]).")";?></p>
+						<p class="title"><a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"list"),array("query"=>array("book_type"=>$item["type"]["id"],"just_senior"=>1)));?>"><?php echo $item["type"]["name"]."(".count($item["books"]).")";?></a></p>
 						<p class="brief"><?php echo $item["type"]['description'];?></p>
 					</div>
 				</div>
 			</div>
 		<?php if($i==3)break;?>
 		<?php endforeach;?>
-<!--		
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book02.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">考公类</p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book03.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title"> 考证书</p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book01.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">其他图书</p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
--->
     </div>
     <hr>
     <div class="row head">
         <div class="head-center">
             <ul>
                 <li class="head-text">图书推荐</li>
-                <li>共享交流</li>
-                <li>以书会友</li>
+<!--                <li>共享交流</li>
+                <li>以书会友</li>-->
             </ul>
         </div>
     </div>
@@ -156,62 +127,39 @@
             <div class="article-center">
                 <img src="img/book01.jpg" alt="" height="268px" width="380px">
                 <div class="article-text">
-                    <p class="article-text-head">一个人怎么能变得更好</p>
+					<?php $author=$top_book->getUser(); ?>
+                    <p class="article-text-head">
+						<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$top_book["id_book"])));?>"><?php echo $top_book["name"];?></a> 
+						(
+							<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$author["id_user"])));?>"><?php echo $author["name"];?></a>
+						)
+					</p>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="row" style="margin-left:10px;width:100%;text-align: center;">
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
+				<?php foreach($books_top_borrowed as $i=>$item):?>
+					<div class="col-md-3 sm-article-center">
+						<img src="img/book02.jpg" height="100px" width="160px" alt="">
+						<div class="article-text">
+							<p class="article-text-head"><a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$item["id_book"])));?>"><?php echo $item["name"]."(".$item["description"].")";?></a></p>
+						</div>
+					</div>
+				<?php if($i==3)break;?>
+				<?php endforeach;?>
             </div>
             <div class="row" style="margin-left:10px;width:100%;text-align: center;">
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
-                <div class="col-md-3 sm-article-center">
-                    <img src="img/book02.jpg" height="100px" width="160px" alt="">
-                    <div class="article-text">
-                        <p class="article-text-head">一个人怎么能变得更好</p>
-                    </div>
-                </div>
+				<?php foreach($books_top_borrowed as $i=>$item):?>
+				<?php if($i<=3)continue;?>
+					<div class="col-md-3 sm-article-center">
+						<img src="img/book02.jpg" height="100px" width="160px" alt="">
+						<div class="article-text">
+							<p class="article-text-head"><a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$item["id_book"])));?>"><?php echo $item["name"]."(".$item["description"].")";?></a></p>
+						</div>
+					</div>
+				<?php if($i==7)break;?>
+				<?php endforeach;?>
             </div>
         </div>
     </div>
@@ -219,97 +167,63 @@
         <div class="head-center">
             <ul>
                 <li class="head-text">文章推荐</li>
-                <li>共享交流</li>
-                <li>以书会友</li>
+<!--                <li>共享交流</li>
+                <li>以书会友</li>-->
             </ul>
         </div>
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book01.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book02.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book03.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book01.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
+		<?php foreach($articles_top_browsed as $i=>$item):?>
+			<div class="col-md-3">
+				<div class="book-center">
+					<img src="img/book01.jpg" alt="" width="270px" height="150px">
+					<div class="book-text">
+						<?php $author=$item->getUser(); ?>
+						<p class="title">
+							<a href="<?php echo $this->url("book/default",array("controller"=>"article","action"=>"page"),array("query"=>array("id_article"=>$item["id_article"])));?>"><?php echo $item["title"];?></a> 
+							<span class="pull-right">
+								<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$author["id_user"])));?>"><?php echo $author["name"];?></a>
+							</span>
+						</p>
+						<p class="brief"><?php echo substr($item["content"],0,10); ?></p>
+					</div>
+				</div>
+			</div>
+		<?php if($i==3)break;?>
+		<?php endforeach;?>
     </div>
     <hr>
     <div class="row head">
         <div class="head-center">
             <ul>
                 <li class="head-text">猜你喜欢</li>
-                <li>共享交流</li>
-                <li>以书会友</li>
+<!--                <li>共享交流</li>
+                <li>以书会友</li>-->
             </ul>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book01.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book02.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book03.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="book-center">
-                <img src="img/book01.jpg" alt="" width="270px" height="150px">
-                <div class="book-text">
-                    <p class="title">茶花女 <span class="pull-right">小仲马</span></p>
-                    <p class="brief">一个风尘女子的爱情故事，她的爱情是凄美的，动人的</p>
-                </div>
-            </div>
-        </div>
+		<?php if(!empty($guess_your_love)): ?>
+			<?php foreach($guess_your_love as $i=>$item):?>
+				<div class="col-md-3">
+					<div class="book-center">
+						<img src="img/book01.jpg" alt="" width="270px" height="150px">
+						<div class="book-text">
+							<?php $author=$item->getUser(); ?>
+							<p class="title">
+								<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$item["id_book"])));?>"><?php echo $item["name"];?></a> 
+								<span class="pull-right">
+									<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$author["id_user"])));?>"><?php echo $author["name"];?></a>
+								</span>
+							</p>
+							<p class="brief"><?php echo substr($item["description"],0,10); ?></p>
+						</div>
+					</div>
+				</div>
+			<?php if($i==3)break;?>
+			<?php endforeach;?>
+		<?php endif;?>
     </div>
 </div>
 

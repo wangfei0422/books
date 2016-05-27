@@ -48,7 +48,7 @@ class Module
 		$indexController->setEvent($event);
 		$tourists			=	$event->getTarget()->getServiceManager()->get("Config")["tourists"];
 					
-		//如果用户未登录，并且请求url非网站入口，则重定向至网站入口进行登录。
+		//如果用户未登录，并且请求url非游客页面，则重定向至登录。
 		if(!$userManager->isLogged()){
 			if($routeName!="sign_up" && $routeName!="sign_in" && !in_array($routeName,$tourists)){
 				$c=$userManager->getContainer();

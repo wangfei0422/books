@@ -31,12 +31,14 @@ class IndexController extends Controller
 		$this->data["book_types"]=$this->cm->getBookTypes();
 		//图书推荐
 		$this->data["books_top_borrowed"]=$books=$b->getTopBorrowed();
+		$this->data["top_book"]=$books[0];
 		//大四专场
 		$books2=$b->getBooksByUserType(User::TYPE_SENIOR,$books);
 		$this->data["books_for_senior"]=$b->getBooksByType("",$books2);
 		//文章推荐
 		$this->data["articles_top_browsed"]=$a->getTopBrowsed();
 		//猜你喜欢
+		$this->data["guess_your_love"]=array();
 		if(!is_null($this->u)){
 			$books2=$this->u->getBooksCurrBorrowed();
 			$types=[];
