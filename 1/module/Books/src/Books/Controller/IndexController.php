@@ -67,7 +67,7 @@ class IndexController extends Controller
 			$pw=$f["pw"];
 			$user=$this->tm->getTable("User")->getWithName($name);
 			if(!is_null($user)){
-				if($user["pw"]==$pw){								////////////////$pw为何为空？
+				if($user["pw"]==$pw){
 					$this->um->logIn($user);
 					$c=$this->um->getContainer();
 					if(isset($c["jump_url"])){

@@ -91,18 +91,25 @@ class BookController extends Controller
 
     public function listAction()
     {
-		//query id_user page
+		//query id_user page book_type just_senior
 		$qd=$this->getRequest()->getQuery();
 		$this->data["id_user"]=$id_user=$qd["id_user"];
-		$page=$qd["page"];
 		$user=$this->tm->getTable("User")->get($id_user);
+		$page=$qd["page"]? :1;
+		$book_type=isset($qd["book_type"])?$qd["book_type"] :-1;
+		$just_senior=(int)$qd["just_senior"]===1?true:false;
 		$paginator=null;
+		$books=array();
 		if(!is_null($user)){
 			$books=$user->getBooks();
-			$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($books));
 		}else{
-			$paginator=$this->tm->getTable("Book")->fetchAll("","",-1,-1,true);
+			$b=$this->tm->getTable("Book");
+			$books=$b->getTopBorrowed();
+			if($just_senior) 	 $books=$b->getBooksByUserType(\Books\Model\User::TYPE_SENIOR,$books);
+			if($book_type!=-1)	 $books=$b->getBooksByTypeId($book_type,$books);
 		}
+		if(is_null($books))$books=[];
+		$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($books));
 		$paginator->setCurrentPageNumber($page);
 		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);

@@ -87,6 +87,7 @@ class BookTable extends TableBase{
 			return null;
 		}
 		if(empty($types)){
+			$types=$types_;
 			foreach($types as $i=>$t){
 				if(!in_array($t["name"],$type))unset($types[$i]);
 			}			
@@ -130,6 +131,24 @@ class BookTable extends TableBase{
 			}
 		}
 		return $temp;
+    }
+	
+    /**
+    * @param    int $type    
+    * @param    array $books    
+    * @return   array
+    */
+    public function getBooksByTypeId($type=-1, $books=null){
+		global $g;
+		$cm=$g["App"]->getServiceManager()->get("Books\Model\ConfigManager");
+		$types=$cm->getBookTypes();
+		if($type===-1){
+			$type="";
+		}else{
+			if(!isset($types[$type]))return null;
+			$type=$types[$type]["name"];
+		}
+		return $this->getBooksByType($type,$books);
     }    
 }
 
