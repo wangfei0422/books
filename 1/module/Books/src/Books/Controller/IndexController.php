@@ -48,8 +48,10 @@ class IndexController extends Controller
 			}
 			$books_by_type=$b->getBooksByType($types_,$books);
 			$guess=[];
-			foreach($books_by_type as $item){
-				$guess=array_merge($guess,$item["books"]);
+			if((bool)$books_by_type){
+				foreach($books_by_type as $item){
+					$guess=array_merge($guess,$item["books"]);
+				}				
 			}
 			$this->data["guess_your_love"]=$guess;
 		}
