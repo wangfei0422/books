@@ -146,11 +146,9 @@
 							<?php if($id_book_borrowed!=null):?>
 								<a href="<?php echo $this->url("book/default",array("controller"=>"BookFeedback","action"=>"add"),array("query"=>array("id_book_borrowed"=>$id_book_borrowed))) ?>" class="btn btn-default btn-sm">添加评论</a>
 							<?php endif;?>
-							<?php if($u->isManager() || $item["id_user"]==$u["id_user"]):?>
-							<!--
+							<?php if($item["id_user"]==$u["id_user"]):?>
 								<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"edit"),array("query"=>array("id_book"=>$item["id_book"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
 								<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"delete"),array("query"=>array("id_book"=>$item["id_book"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-close"></i></a>
-							-->
 							<?php endif;?>
 						</td>
 					</tr>
