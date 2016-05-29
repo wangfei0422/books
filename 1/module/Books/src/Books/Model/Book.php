@@ -90,7 +90,7 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     /**
     * @return   boolean
     */
-    public function return(){
+    public function returnBook(){
 		$r=$this->getCurrRecord();
 		if(is_null($r))return true;
 		$r["return_date"]=date($this->datetimeFormat);

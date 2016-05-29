@@ -212,7 +212,7 @@ class User extends EntityBase implements InputFilterAwareInterface{
     */
     public function returnBook(Book $book){
      	if($book->isBorrowed()){
-			$book->return();
+			$book->returnBook();
 			return true;
 		}
 		return false;
