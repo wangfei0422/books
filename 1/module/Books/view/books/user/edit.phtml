@@ -1,7 +1,30 @@
 <?php
  	$form->setAttribute('action', $this->url('book/default',array('controller'=>'user','action'=>'edit')));
+ 	$form->setAttribute('action', $this->url('book/default',array("controller"=>"user","action"=>"edit")));
+	$form->setAttribute("class","form-horizontal");
+	$form->setAttribute("role","form");
+	$id_u=$form->get("id_user");
+	$n=$form->get("name");
+	$pw=$form->get("pw");
+	$hi=$form->get("head_image");
+	$qq=$form->get("qq_number");
+	$m=$form->get("mail");
+	$ut=$form->get("user_type");
+	$s=$form->get("submit");
+	$is_m=$form->get("is_manager");
+	
+	$n->setAttribute("class","form-control");
+	$pw->setAttribute("class","form-control");
+	$hi->setAttribute("class","form-control");
+	$qq->setAttribute("class","form-control");
+	$m->setAttribute("class","form-control");
+	$ut->setAttribute("class","form-control");
+	$is_m->setAttribute("class","form-control");
+	$s->setAttribute("class","btn btn-default");
+	
+	
 	$form->prepare();
-	echo $this->form()->openTag($form);
+/* 	echo $this->form()->openTag($form);
 	echo $this->formRow($form->get('id_user'));
 	echo $this->formRow($form->get('name'));
 	echo $this->formRow($form->get('pw'));
@@ -11,5 +34,159 @@
 	echo $this->formRow($form->get('is_manager'));
 	echo $this->formRow($form->get('user_type'));
 	echo $this->formSubmit($form->get('submit'));
-	echo $this->form()->closeTag(); 
+	echo $this->form()->closeTag();  */
 ?>
+
+<style>
+	#main-container {
+		position: relative;
+		height: 100%;
+	}
+
+	.header-bar {
+		position: fixed;
+		top:0px;
+		left:0px;
+		z-index: 100;
+		width: 100%;
+		height: 98px;
+		background-color:#30608d;
+		background-position:center;
+		background: url('../../static/images/header.png') no-repeat;
+	}
+
+	.center-bar {
+		height: 98px;
+		padding-top: 15px;
+		margin: 5px auto;
+		padding-left:30px;
+		padding-right:50px;
+	}
+
+	.row {
+		padding-bottom: 5px;
+	}
+
+	.image-center {
+		width: 70px;
+		height: 70px;
+		margin: 0px auto;
+	}
+
+	#sidebar {
+		position:fixed;
+		left: 0px;
+		top: 50px;
+		width: 230px                   ;
+		height: 100%;
+		background: #30608d;
+		/*background: #00468E;*/
+		/*background: #415a61;*/
+	}
+	#mCSB_1_container{
+		width:100%;
+		margin-right: 0px;
+	}
+	.sidebar-mini-hide {
+		padding-left: 15px;
+		letter-spacing: 2px;
+	}
+	div.sidebar-content{
+		padding-bottom:150px;
+	}
+	.nav-main ul {
+		padding: 0 0 0 80px;
+	}
+
+	.panel-info > .panel-heading {
+		background: #30608d;
+		color: #FFFFFF;
+		height: 40px;
+		line-height: 30px;
+		text-align: left;
+	}
+
+	.btn-default {
+		background: #30608d;
+		color: #FFFFFF;
+	}
+
+	.newbtn {
+		width: 230px;
+		background-color: #2c343f;
+	}
+
+	.newbtnchild {
+		width: 33.6%;
+		border: none;
+		border-radius: 0px;
+	}
+
+	.main {
+		position: absolute;
+		top: 70px;
+		left: 0px;
+		padding: 0px 23px;
+		width: 100%;
+		margin: 0 auto;
+	}
+</style>
+<div class="main" style="display:block;">
+	<div class="panel panel-info">
+		<div class="panel-heading">添加文章</div>
+		<div class="panel-body" style="">
+			<?php echo $this->form()->openTag($form);
+				echo $this->formRow($form->get('id_user'));				
+			?>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $n->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($n);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $pw->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($pw);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $ut->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formRadio($ut);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $hi->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($hi);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $qq->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($qq);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $m->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($m);?>
+				</div>
+			</div>
+			<div class="form-group" style="display:<?php if(!$u->isManager())echo "none"; ?>">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $is_m->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formCheckbox($is_m);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-12 col-sm-2 col-md-2 col-md-offset-1 col-lg-1 control-label">
+					<?php echo $this->formSubmit($form->get('submit'));?>
+				</div>
+			</div>
+			<?php echo $this->form()->closeTag();?>
+			</div>
+	</div>
+</div>
+</div>

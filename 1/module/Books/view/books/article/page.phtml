@@ -1,6 +1,11 @@
 <?php
-	echo $article["title"];
-	echo '<br/>';
 	var_dump($article->getArrayCopy());
+/* 
+	可用数据
+	$u   	当前登录用户
+	$article	正在查看的文章（文章）
+	$user 		文章的发布人
+	$feedbacks	文章的所有评论
+ */
 ?>
 <a href="<?php echo $this->url("book/default",array('controller'=>'ArticleFeedback','action'=>'add'),array('query'=>array('id_article'=>$article['id_article'])));?>">添加回复</a>

@@ -65,7 +65,8 @@ class TableManager{
 			}
 			
 			$tableInstance->setTableGateway(new TableGateway($table,$dbAdapter,null,$resultSetPrototype));
-			$tableInstance->setPk(isset($this->pks[$table])?$this->pks[$table]:"id");
+			//$tableInstance->setPk(isset($this->pks[$table])?$this->pks[$table]:"id");
+			$tableInstance->setPk($this->pks[$table]);
 		}
 		return $this->tables[$table];
 

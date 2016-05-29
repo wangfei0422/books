@@ -28,7 +28,7 @@ class IndexController extends Controller
 		$b=$this->tm->getTable("Book");
 		$a=$this->tm->getTable("Article");
 		//图书类型
-		$this->data["book_types"]=$this->cm->getBookTypes();
+		$this->data["book_types"]=$types=$this->cm->getBookTypes();
 		//图书推荐
 		$this->data["books_top_borrowed"]=$books=$b->getTopBorrowed();
 		$this->data["top_book"]=$books[0];
@@ -41,12 +41,17 @@ class IndexController extends Controller
 		$this->data["guess_your_love"]=array();
 		if(!is_null($this->u)){
 			$books2=$this->u->getBooksCurrBorrowed();
-			$types=[];
+			$types_=[];
 			foreach($books2 as $book){
-				$type=$book->getType();
-				if(!in_array($type,$types))$types[]=$type;
+				$type=$types[$book["type"]]["name"];
+				if(!in_array($type,$types_))$types_[]=$type;
 			}
-			$this->data["guess_your_love"]=$b->getBooksByType($types,$books);
+			$books_by_type=$b->getBooksByType($types_,$books);
+			$guess=[];
+			foreach($books_by_type as $item){
+				$guess=array_merge($guess,$item["books"]);
+			}
+			$this->data["guess_your_love"]=$guess;
 		}
         return new ViewModel($this->data);
     }

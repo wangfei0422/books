@@ -102,8 +102,9 @@ class EntityBase extends ArrayObject{
 		$this->hf=$sm->get("Books\Model\HelperFunctions");
 		
 		$this["status"]=1;											//默认状态已经验证,没status的类表需要unset此字段
-		$pk=$this->getTable()->getPk();
-		$this[$pk]=0;												//默认主键为零，非整数主键要设置此键前字符串
+		//$pk=$this->getTable()->getPk();							//此时还不能调用此函数。表管理器还未设计此属性
+		//$this[$pk]=0;												//默认主键为零，非整数主键要设置此键前字符串
+
     }
 
     /**

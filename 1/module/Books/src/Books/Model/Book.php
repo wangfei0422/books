@@ -54,8 +54,8 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     */
     public function isWaitingPledge(){
 		$whoWantBook=$this->tm->getTable("User")->get($this["whoWantBook"]);
-		$notExpired=$this->hf->dateNewer($this[$pledgeExpireTime]);
-     	if($this["pledged"]==false && !is_null($whoWantBook) && $notExpired)return true;
+		$notExpired=$this->hf->dateNewer($this["pledgeExpireTime"]);
+     	if($this["pledged"]==0 && !is_null($whoWantBook) && $notExpired)return true;
 		return false;
     }
     
@@ -83,14 +83,14 @@ class Book extends EntityBase implements InputFilterAwareInterface{
 		$r->save();
 		
      	$this["pledgeExpireTime"]=date($this->datetimeFormat);
-		$this["pledged"]=true;
+		$this["pledged"]=1;
 		$this->save();
     }
     
     /**
     * @return   boolean
     */
-    public function return_(){
+    public function return(){
 		$r=$this->getCurrRecord();
 		if(is_null($r))return true;
 		$r["return_date"]=date($this->datetimeFormat);
@@ -166,8 +166,8 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     public function saveForIdleStatus(){
      	$this["whoWantBook"]=-1;
 		$this["pledgeExpireTime"]=date($this->datetimeFormat);
-		$this["pledged"]=false;
-		$this-save();
+		$this["pledged"]=0;
+		$this->save();
     }
     
     /**
@@ -176,9 +176,11 @@ class Book extends EntityBase implements InputFilterAwareInterface{
     */
     public function saveForWaitingPledgeStatus(User $user){
      	$this["whoWantBook"]=$user["id_user"];
-		$this["pledgeExpireTime"]=date($this->datetimeFormat);
-		$this["pledged"]=false;
-		$this-save();
+		$pledgeExpireTime=new \DateTime();
+		$pledgeExpireTime=$pledgeExpireTime->add(new \DateInterval("P2D"));
+		$this["pledgeExpireTime"]=$pledgeExpireTime->format($this->datetimeFormat);
+		$this["pledged"]=0;
+		$this->save();
     }    
 
     /**

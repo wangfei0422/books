@@ -51,7 +51,16 @@
 					<?php else:?>
 						<?php echo $this->navigation("tourist-navigation")->menu()->setUlClass("nav navbar-nav")->setPartial("books/partials/menu.phtml")->render(); ?>
 					<?php endif;?>
-
+					<?php 
+						global $g;
+						$u=$g["App"]->getServiceManager()->get("Books\Model\UserManager")->getCurrUser();
+					?>
+					<!--
+					<?php if(!is_null($u)):?>
+						<?php //当前登录用户个人资料编辑 ?>
+						<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"edit"),array("query"=>array("id_user"=>$u["id_user"]))) ?>" class="btn btn-default btn-sm">编辑个人信息</a>
+					<?php endif;?>
+					-->
 				</div>
             </div>
         </nav>

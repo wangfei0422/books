@@ -110,6 +110,13 @@ class BookFeedback extends EntityBase implements InputFilterAwareInterface{
 				),
 			));
 			$inputFilter->add(array(
+				'name'		=>"star",
+				'required'	=>true,
+				'filters'	=>array(
+					array('name'=>'int'),
+				),
+			));
+			$inputFilter->add(array(
 				'name'		=>"is_verified",
 				'required'	=>false,
 			)); 

@@ -70,6 +70,7 @@ class BookTable extends TableBase{
     * @return   array
     */
     public function getBooksByType($type="", $books=null){
+		$old_type=$type;
 		if(is_null($books)){
 			$books=$this->fetchAll();
 		}
@@ -102,7 +103,7 @@ class BookTable extends TableBase{
 					$temp2['books'][]=$book;
 				}
 			}
-			if(is_string($type) && $t['name']==$type)return $temp2['books'];
+			if(is_string($old_type) && $t['name']==$old_type)return $temp2['books'];
 			if(count($temp2['books'])>0)$temp[]=$temp2;
 		}
 		return $temp;

@@ -71,11 +71,13 @@ class Article extends EntityBase implements InputFilterAwareInterface{
     /**
     * @return   boolean
     */
-    public function increseBrowseCount(){
+    public function increaseBrowseCount(){
 		$v=$this->getBrowseCount();
 		if($v>=(pow(2,self::BROWSE_COUNT_BIT_LEN)-1))return;
 		$v++;
-     	$this->hf->setMaskValue(self::BROWSE_COUNT_BIT_START,self::BROWSE_COUNT_BIT_LEN,$this["status"],$v);
+		var_dump($this->storage);
+     	$this["status"]=$this->hf->setMaskValue(self::BROWSE_COUNT_BIT_START,self::BROWSE_COUNT_BIT_LEN,$this["status"],$v);
+		$this->save();
     }
 	
 	private $inputFilter=null;

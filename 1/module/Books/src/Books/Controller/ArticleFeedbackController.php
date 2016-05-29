@@ -41,6 +41,7 @@ class ArticleFeedbackController extends Controller
 				return $this->redirect()->toRoute('book/default',array('controller'=>'article','action'=>'page'),array('query'=>array('id_article'=>$id_article)));
 			}
 		}
+		$this->data['article']=$this->tm->getTable("Article")->get($qd["id_article"]);
 		$this->data['form']=$form;
         return new ViewModel($this->data);
     }

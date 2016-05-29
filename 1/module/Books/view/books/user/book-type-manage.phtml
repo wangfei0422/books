@@ -1,6 +1,24 @@
-Module: Books
-Controller: User
-Action: bookTypeManage
+<?php
+  	$form->setAttribute('action', $this->url('book/default',array('controller'=>'User','action'=>'bookTypeManage')));
+	$form->setAttribute("class","form-horizontal");
+	$form->setAttribute("role","form");
+	$n=$form->get("name");
+	$d=$form->get("description");
+	$s=$form->get("submit");
+	
+	$n->setAttribute("class","form-control");
+	$d->setAttribute("class","form-control");
+	$s->setAttribute("class","btn btn-default");	
+	$form->prepare();
+	
+/*
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('name'));
+	echo $this->formRow($form->get('description'));
+	echo $this->formSubmit($form->get('submit'));
+	echo $this->form()->closeTag(); 
+	var_dump($this->types); */
+?>
 <style>
     #main-container {
         position: relative;
@@ -86,316 +104,46 @@ Action: bookTypeManage
         border-radius: 0px;
     }
 
-    .main {
-        position: absolute;
-        top: 70px;
-        left: 230px;
-        padding: 0px 23px;
-        width: 83%;
-        margin: 0 auto;
-    }
+	.main {
+		position: absolute;
+		top: 70px;
+		left: 0px;
+		padding: 0px 23px;
+		width: 100%;
+		margin: 0 auto;
+	}
 </style>
-<div id="main-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed side-overlay-o gw-container">
-    <!--header-bar start-->
-    <!--sidebar start-->
-    <nav id="sidebar" class="mCustomScrollbar _mCS_1 mCS-autoHide" style="overflow: visible;">
-        <div id="mCSB_1" class="mCustomScrollBox mCS-minimal mCSB_vertical mCSB_outside" tabindex="0">
-            <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
-                <!-- Sidebar Scroll Container -->
-
-                <div id="sidebar-scroll" style="">
-                    <!-- Sidebar Content -->
-                    <div class="sidebar-content">
-                        <!-- Side Header -->
-                        <!--<div class="row side-header side-content bg-white-op">-->
-                        <div class="row side-header side-content" style="text-align: center;">
-                            <div class="image-center">
-                                <img class="img-circle" src="../../img/default.jpg" alt="" width="65" height="65">
-                            </div>
-                            <p style="color: #FFFFFF;font-size: 16px;line-height: 1.2;letter-spacing:2px;">admin</p>
-                            <p style="color: #FFFFFF;font-size: 14px;line-height: 1.2;letter-spacing:2px;">图书漂流</p>
-                        </div>
-                        <!-- END Side Header -->
-
-                        <!-- Side Content -->
-                        <div class="side-content">
-                            <ul class="nav-main">
-                                <li class="" id="shop">
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                        <img class="img-circle" src="../../img/1.png" alt="" width="42" height="42">
-                                        <span class="sidebar-mini-hide">图书管理</span></a>
-                                    <ul>
-                                        <li id="goods" kw="">
-                                            <a href="book/user/bookTypeManage">分类管理</a>
-                                        </li>
-                                        <li id="package" kw="">
-                                            <a href="book/user/bookManage">图书管理</a>
-                                        </li>
-                                        <li id="category" kw="">
-                                            <a href="{php echo $this->createWebUrl('shop/category')}">分类管理</a>
-                                        </li>
-                                        <li id="adv" kw="">
-                                            <a href="{php echo $this->createWebUrl('shop/adv')}">幻灯片管理</a>
-                                        </li>
-                                        <li id="notice" kw="">
-                                            <a href="{php echo $this->createWebUrl('shop/notice')}">公告管理</a>
-                                        </li>
-                                        <li id="comment" kw="">
-                                            <a href="{php echo $this->createWebUrl('shop/comment')}">评价管理</a>
-                                        </li>
-                                        <li id="consult" kw="">
-                                            <a href="{php echo $this->createWebUrl('shop/consult')}">咨询管理</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="" id="order">
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                        <img class="img-circle" src="../../img/3.png" alt="" width="42" height="42">
-                                        <span class="sidebar-mini-hide">订单管理</span></a>
-                                    <ul>
-                                        <li id="list" kw="">
-                                            <a href="{php echo $this->createWebUrl('order/list')}">订单查询</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="" id="logistics">
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                        <img class="img-circle" src="../../img/4.png" alt="" width="42" height="42">
-                                        <span class="sidebar-mini-hide">文章管理</span></a>
-                                    <ul>
-                                        <li id="inventory" kw="">
-                                            <a href="{php echo $this->createWebUrl('logistics/inventory')}">文章管理</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="" id="member">
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                        <img class="img-circle" src="../../img/2.png" alt="" width="42" height="42">
-                                        <span class="sidebar-mini-hide">用户管理</span></a>
-                                    <ul>
-                                        <li id="captain" kw="">
-                                            <a href="../member/list.html">用户列表</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="" id="statistics">
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#">
-                                        <img class="img-circle" src="../../img/6.png" alt="" width="42" height="42">
-                                        <span class="sidebar-mini-hide">数据统计</span></a>
-                                    <ul>
-                                        <li id="sale" kw="">
-                                            <a href="{php echo $this->createWebUrl('statistics/sale')}">图书借阅排行</a>
-                                        </li>
-                                        <li id="sale_analysis" kw="">
-                                            <a href="{php echo $this->createWebUrl('statistics/sale_analysis')}">文章排行</a>
-                                        </li>
-                                        <li class="order" kw="">
-                                            <a href="{php echo $this->createWebUrl('statistics/order')}">推荐作者</a>
-                                        </li>
-                                        <li id="member_increase" kw="">
-                                            <a href="{php echo $this->createWebUrl('statistics/member_increase')}">会员增长趋势</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- END Side Content -->
-                    </div>
-                    <!-- Sidebar Content -->
-                </div>
-                <!-- END Sidebar Scroll Container -->
-
-            </div>
-        </div>
-    </nav>
-    <!-- END Sidebar -->
-    <script type="text/javascript">
-        $('.nav-main ul a>i').css({"display": "none", "padding-right": "0px"});
-        require(['bootstrap'], function () {
-            $('.ext-type').click(function () {
-                var id = $(this).data('id');
-                util.cookie.del('ext_type');
-                util.cookie.set('ext_type', id, 7 * 86400);
-
-                location.reload();
-                return false;
-            });
-        });
-    </script>
-    <script>
-        jQuery('[data-toggle="nav-submenu"]').on('click', function (e) {
-            var $link = jQuery(this);
-            var $parentLi = $link.parent('li');
-            if ($parentLi.hasClass('open')) {
-                $parentLi.removeClass('open');
-            } else {
-                $link.closest('ul').find('> li').removeClass('open');
-                $parentLi.addClass('open');
-            }
-            if ($lHtml.hasClass('no-focus')) {
-                $link.blur();
-            }
-
-            return false;
-        });
-
-        $(function () {
-            var current_nav_submenu = '{$do}';
-            var current_nav_submenu_li = '{$p}';
-            if (current_nav_submenu) {
-                $("#" + current_nav_submenu).addClass('open');
-
-                $("li"+".open"+">ul>li"+"#" + current_nav_submenu_li+">a").css("color","#fff");
-                $("li"+".open"+">ul>li"+"."+current_nav_submenu_li+">a").css("color","#fff");
-            }
-
-        });
-
-    </script>
-    <script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
-    <style type='text/css'>
-        .tab-pane {padding:20px 0 20px 0;}
-    </style>
-    <script type="text/javascript">
-        function formcheck() {
-            window.type = $("input[name='type']:checked").val();
-            window.virtual = $("#virtual").val();
-
-            if ($("#goodsname").isEmpty()) {
-                $('#myTab a[href="#tab_basic"]').tab('show');
-                Tip.focus("#goodsname", "请输入商品名称!");
-                return false;
-            }
-            {if $shopset['catlevel']==3}
-            if ($("#category_third").val() == '0') {
-                $('#myTab a[href="#tab_basic"]').tab('show');
-                Tip.focus("#category_third", "请选择完整商品分类!");
-                return false;
-            }
-            {else}
-            if ($("#category_child").val() == '0') {
-                $('#myTab a[href="#tab_basic"]').tab('show');
-                Tip.focus("#category_child", "请选择完整商品分类!");
-                return false;
-            }
-
-            {/if}
-
-            {if empty($id)}
-            if ($.trim($(':input[name="thumb"]').val()) == '') {
-                $('#myTab a[href="#tab_basic"]').tab('show');
-                Tip.focus(':input[name="thumb"]', '请上传缩略图.');
-                return false;
-            }
-            {/if}
-            var full = true;
-            if(window.type=='3'){
-
-                if(window.virtual!='0'){  //如果单规格，不能有规格
-
-                    if($('#hasoption').get(0).checked){
-
-                        $('#myTab a[href="#tab_option"]').tab('show');
-                        util.message('您的商品类型为：虚拟物品(卡密)的单规格形式，需要关闭商品规格！');
-                        return false;
-                    }
-                }
-                else{
-
-                    var has = false;
-                    $('.spec_item_virtual').each(function(){
-                        has  = true;
-                        if($(this).val()=='' || $(this).val()=='0'){
-                            $('#myTab a[href="#tab_option"]').tab('show');
-                            Tip.focus($(this).next(), '请选择虚拟物品模板!');
-                            full =false;
-                            return false;
-                        }
-                    });
-                    if(!has){
-                        $('#myTab a[href="#tab_option"]').tab('show');
-                        util.message('您的商品类型为：虚拟物品(卡密)的多规格形式，请添加规格！');
-                        return false;
-                    }
-                }
-            }
-            if (!full) {
-                return false;
-            }
-
-            full = checkoption();
-            if (!full) {
-                return false;
-            }
-            if (optionchanged) {
-                $('#myTab a[href="#tab_option"]').tab('show');
-                alert('规格数据有变动，请重新点击 [刷新规格项目表] 按钮!');
-                return false;
-            }
-            return true;
-        }
-
-        function checkoption() {
-
-            var full = true;
-            if ($("#hasoption").get(0).checked) {
-                $(".spec_title").each(function (i) {
-                    if ($(this).isEmpty()) {
-                        $('#myTab a[href="#tab_option"]').tab('show');
-                        Tip.focus(".spec_title:eq(" + i + ")", "请输入规格名称!", "top");
-                        full = false;
-                        return false;
-                    }
-                });
-                $(".spec_item_title").each(function (i) {
-                    if ($(this).isEmpty()) {
-                        $('#myTab a[href="#tab_option"]').tab('show');
-                        Tip.focus(".spec_item_title:eq(" + i + ")", "请输入规格项名称!", "top");
-                        full = false;
-                        return false;
-                    }
-                });
-            }
-            if (!full) {
-                return false;
-            }
-            return full;
-        }
-
-    </script>
-</div>
-
 <div class="main" style="display:block;">
     <div class="panel panel-info">
-						<?php
- 	$form->setAttribute('action', $this->url('book/default',array('controller'=>'User','action'=>'bookTypeManage')));
-	$form->prepare();
-	echo $this->form()->openTag($form);
-	echo $this->formRow($form->get('name'));
-	echo $this->formRow($form->get('description'));
-	echo $this->formSubmit($form->get('submit'));
-	echo $this->form()->closeTag(); 
-	var_dump($this->types);
-?>
         <div class="panel-heading">添加图书分类</div>
         <div class="panel-body" style="">
-            <form action="" method="get" class="form-horizontal" role="form">
-                <div class="form-group">
-                    <div class="col-xs-12 col-sm-2 col-md-1 control-label" >
-                        <button class="btn btn-default"><i class="fa fa-plus"></i>添加分类</button>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-2 col-md-2 control-label">
-                        <button class="btn btn-default">保存分类</button>
-                    </div>
-                </div>
-            </form>
+			<?php echo $this->form()->openTag($form);
+			
+			?>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $n->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($n);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"><?php echo $d->getLabel();?></label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<?php echo $this->formInput($d);?>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-12 col-sm-2 col-md-2 col-md-offset-1 col-lg-1 control-label">
+					<?php echo $this->formSubmit($form->get('submit'));?>
+				</div>
+			</div>
+			<?php echo $this->form()->closeTag();?>
         </div>
     </div>
     <form action="">
         <div class="panel panel-default">
             <div class="panel-heading">
-                分类管理（总数：1）
+                分类管理（总数：<?php count($types); ?>）
             </div>
             <div class="panel-body table-responsive">
                 <table class="table table-hover">
@@ -403,22 +151,24 @@ Action: bookTypeManage
                     <tr>
                         <th >分类ID</th>
                         <th >分类名称</th>
-                        <th >创建人</th>
+						<th >分类描述</th>
                         <th >创建时间</th>
                         <th >操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>历史小说</td>
-                        <td>admin</td>
-                        <td>2015-5-20 14：24</td>
-                        <td>
-                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-close"></i></a>
-                        </td>
-                    </tr>
+					<?php foreach($types as $type):?>
+						<tr>
+							<td><?php echo $type["id"] ?></td>
+							<td><?php echo $type["name"] ?></td>
+							<td><?php echo $type["description"] ?></td>
+							<td><?php echo $type["time"] ?></td>
+							<td>
+								<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"bookTypeManage"),array("query"=>array("operation"=>"edit","id"=>$type["id"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+								<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"bookTypeManage"),array("query"=>array("operation"=>"delete","id"=>$type["id"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-close"></i></a>
+							</td>
+						</tr>
+					<?php endforeach;?>
                     </tbody>
                 </table>
             </div>

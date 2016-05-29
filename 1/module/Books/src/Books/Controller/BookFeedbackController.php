@@ -43,6 +43,8 @@ class BookFeedbackController extends Controller
 				return $this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'page'),array('query'=>array('id_book'=>$id_book)));
 			}
 		}
+		$borrow=$this->tm->getTable("BorrowedRecord")->get($qd["id_book_borrowed"]);
+		$this->data["book"]=$this->tm->getTable("Book")->get($borrow["id_book"]);
 		$this->data['form']=$form;
         return new ViewModel($this->data);
     }

@@ -51,6 +51,21 @@ class ArticleFeedbackForm extends Form{
 			),
 		));
 		$this->add(array(
+			'name'=>'star',
+			'type'=>'Select',
+			'options'=>array(
+				'label'=>'请给文章打分',
+				'value_options'=>array(
+					'0'=>"0分",
+					'1'=>"1分",
+					'2'=>"2分",
+					'3'=>"3分",
+					'4'=>"4分",
+					'5'=>"5分",
+				),
+			),
+		));
+		$this->add(array(
 			'name'=>'submit',
 			'type'=>'Submit',
 			'attributes'=>array(

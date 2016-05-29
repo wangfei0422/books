@@ -114,7 +114,11 @@ class ArticleController extends Controller
 		//query id_article
 		$qd=$this->getRequest()->getQuery();
 		$id_article=$qd["id_article"];
-		$this->data["article"]=$this->tm->getTable("Article")->get($id_article);
+		$article=$this->tm->getTable("Article")->get($id_article);
+		$article->increaseBrowseCount();
+		$this->data["feedbacks"]=$article->getFeedbacks();
+		$this->data["user"]=$article->getUser();
+		$this->data["article"]=$article;
         return new ViewModel($this->data);
     }
 

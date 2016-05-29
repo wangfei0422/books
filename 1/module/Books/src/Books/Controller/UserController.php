@@ -72,7 +72,7 @@ class UserController extends Controller
 		if(!$request->isPost()){
 			$qd=$request->getQuery();
 			$form->bind($this->tm->getTable("User")->get($qd['id_user']));	
-			$form->get("submit")->setValue("提交");			
+			$form->get("submit")->setValue("提交");	
 		}
 		else{
 			$user=new User();
@@ -105,7 +105,10 @@ class UserController extends Controller
 		//query:id_user
 		$request=$this->getRequest();
 		$qd=$request->getQuery();
-		$this->data['user']=$this->tm->getTable("User")->get($qd['id_user']);
+		$user=$this->tm->getTable("User")->get($qd['id_user']);
+		$this->data['books']=$user->getBooks();
+		$this->data['articles']=$user->getArticles();
+		$this->data['user']=$user;
         return new ViewModel($this->data);
     }
 
@@ -118,31 +121,57 @@ class UserController extends Controller
 
     public function userManageAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]?(int)$qd["page"]:1;
+		$paginator=$this->tm->getTable("User")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 
     public function bookManageAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("Book")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]?(int)$qd["page"]:1;
+		$paginator=$this->tm->getTable("Book")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
+		$this->data["book_types"]=$this->cm->getBookTypes();
         return new ViewModel($this->data);
     }
 
     public function bookFeedbackManageAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("BookFeedback")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]?(int)$qd["page"]:1;
+		$paginator=$this->tm->getTable("BookFeedback")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 
     public function articleManageAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("Article")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]?(int)$qd["page"]:1;
+		$paginator=$this->tm->getTable("Article")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 
     public function articleFeedbackManageAction()
     {
-		$this->data["paginator"]=$this->tm->getTable("ArticleFeedback")->fetchAll("","",-1,-1,true);
+		//query page
+		$qd=$this->getRequest()->getQuery();
+		$page=$qd["page"]?(int)$qd["page"]:1;
+		$paginator=$this->tm->getTable("ArticleFeedback")->fetchAll("","",-1,-1,true);
+		$paginator->setCurrentPageNumber($page);
+		$this->data["paginator"]=$paginator;
         return new ViewModel($this->data);
     }
 
@@ -163,9 +192,22 @@ class UserController extends Controller
 		$cm=$this->cm;
 		$form=new BookTypeForm();
 		$request=$this->getRequest();
+		$types=$this->cm->getBookTypes();
+		$qd=$request->getQuery();
+		$op=$qd["operation"]?:"";
+		$id=0;
+		if(!isset($qd["id"]))$id=false;
+		else $id=(int)$qd["id"];
+		if($op==="delete"){
+			$cm->deleteBookType($types[$id]["name"]);
+		}else if($op==="edit" && $id!==false){
+			$form->get("name")->setValue($types[$id]["name"]);
+			$form->get("description")->setValue($types[$id]["description"]);
+			$form->get("submit")->setValue("提交");
+		}
 		if($request->isPost()){
 			$fd=$request->getPost();
-			$cm->addBookType(array('name'=>$fd['name'],'description'=>$fd['description']));
+			if(!empty($fd['name'])) $cm->addBookType(array('name'=>$fd['name'],'description'=>$fd['description']));
 		}
 		$this->data['form']=$form;
 		$this->data['types']=$this->cm->getBookTypes();

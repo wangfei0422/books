@@ -1,3 +1,139 @@
-Module: Books
-Controller: User
-Action: articleFeedbackManage
+<style>
+    #main-container {
+        position: relative;
+        height: 100%;
+    }
+    div.sidebar-content{
+        padding-bottom:150px;
+    }
+    .header-bar {
+        position: fixed;
+        top:0px;
+        left:0px;
+        z-index: 100;
+        width: 100%;
+        height: 98px;
+        background-color:#30608d;
+        background-position:center;
+        background: url('../../static/images/header.png') no-repeat;
+    }
+
+    .center-bar {
+        height: 98px;
+        padding-top: 15px;
+        margin: 5px auto;
+        padding-left:30px;
+        padding-right:50px;
+    }
+
+    .row {
+        padding-bottom: 5px;
+    }
+
+    .image-center {
+        width: 70px;
+        height: 70px;
+        margin: 0px auto;
+    }
+
+    #sidebar {
+        position:fixed;
+        left: 0px;
+        top: 50px;
+        width: 230px                   ;
+        height: 100%;
+        background: #30608d;
+        /*background: #00468E;*/
+        /*background: #415a61;*/
+    }
+    #mCSB_1_container{
+        width:100%;
+        margin-right: 0px;
+    }
+    .sidebar-mini-hide {
+        padding-left: 15px;
+        letter-spacing: 2px;
+    }
+
+    .nav-main ul {
+        padding: 0 0 0 80px;
+    }
+
+    .panel-info > .panel-heading {
+        background: #30608d;
+        color: #FFFFFF;
+        height: 40px;
+        line-height: 30px;
+        text-align: left;
+    }
+
+    .btn-default {
+        background: #30608d;
+        color: #FFFFFF;
+    }
+
+    .newbtn {
+        width: 230px;
+        background-color: #2c343f;
+    }
+
+    .newbtnchild {
+        width: 33.6%;
+        border: none;
+        border-radius: 0px;
+    }
+
+	.main {
+		position: absolute;
+		top: 70px;
+		left: 0px;
+		padding: 0px 23px;
+		width: 100%;
+		margin: 0 auto;
+	}
+</style>
+<div class="main" style="display:block;">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			文章评论管理（总数：<?php echo $paginator->getTotalItemCount(); ?>）
+		</div>
+		<div class="panel-body table-responsive">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+                        <th >评论人</th>
+                        <th >文章</th>
+                        <th >时间</th>
+						<th >星级(星)</th>
+						<th >评议</th>
+                        <th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php foreach($paginator as $item):?>
+					<?php 
+						$user=$item->getUser();
+						$article=$item->getArticle();
+					?>
+					<tr>
+						<td>
+							<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$user["id_user"]))) ?>"><?php echo $user["name"];?></a>
+						</td>
+						<td>
+							<a href="<?php echo $this->url("book/default",array("controller"=>"article","action"=>"page"),array("query"=>array("id_article"=>$user["id_article"]))) ?>"><?php echo $article["title"];?></a>
+						</td>
+						<td><?php echo $item["date"];?></td>
+						<td><?php echo $item["star"];?></td>
+						<td><?php echo $item["feedback"];?></td>
+						<td>
+							<a href="<?php echo $this->url("book/default",array("controller"=>"articleFeedback","action"=>"edit"),array("query"=>array("id"=>$item["id"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+							<a href="<?php echo $this->url("book/default",array("controller"=>"articleFeedback","action"=>"delete"),array("query"=>array("id"=>$item["id"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-close"></i></a>
+						</td>
+					</tr>
+				<?php endforeach;?>
+				<?php echo $this->paginationControl($this->paginator,'Sliding','books/partials/pagination_control.phtml', array('route'=>'book/default','controller' => 'user','action'=>'articleFeedbackManage')); ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

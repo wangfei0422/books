@@ -105,13 +105,14 @@ class BookController extends Controller
 		}else{
 			$b=$this->tm->getTable("Book");
 			$books=$b->getTopBorrowed();
-			if($just_senior) 	 $books=$b->getBooksByUserType(\Books\Model\User::TYPE_SENIOR,$books);
-			if($book_type!=-1)	 $books=$b->getBooksByTypeId($book_type,$books);
+			if($just_senior) $books=$b->getBooksByUserType(\Books\Model\User::TYPE_SENIOR,$books);
 		}
+		if($book_type!=-1)$books=$b->getBooksByTypeId($book_type,$books);
 		if(is_null($books))$books=[];
 		$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($books));
 		$paginator->setCurrentPageNumber($page);
 		$this->data["paginator"]=$paginator;
+		$this->data["book_types"]=$this->cm->getBookTypes();
         return new ViewModel($this->data);
     }
 
@@ -120,7 +121,12 @@ class BookController extends Controller
 		//query id_book
 		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
-		$this->data["book"]=$this->tm->getTable("Book")->get($id_book);
+		$book=$this->tm->getTable("Book")->get($id_book);
+		$this->data["borrowed_records"]=$book->getBorrowedRecords();
+		$this->data["current_record"]=$book->getCurrRecord();
+		$this->data["feedbacks"]=$book->getFeedbacks();
+		$this->data["user"]=$book->getUser();
+		$this->data["book"]=$book;
         return new ViewModel($this->data);
     }
 
@@ -131,6 +137,7 @@ class BookController extends Controller
 		$id_book=$qd["id_book"];
 		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->borrowBookRequest($book);
+		$this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'page'),array('query'=>array('id_book'=>$id_book)));
         return new ViewModel($this->data);
     }
 
@@ -141,26 +148,29 @@ class BookController extends Controller
 		$id_book=$qd["id_book"];
 		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->borrowBookCancel($book);
+		$this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'page'),array('query'=>array('id_book'=>$id_book)));
         return new ViewModel($this->data);
     }
 
     public function returnAction()
     {
 		//query id_book
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
 		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->returnBook($book);
+		$this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'page'),array('query'=>array('id_book'=>$id_book)));
         return new ViewModel($this->data);
     }
 
     public function payPledgeAction()
     {
 		//query id_book
-		$qd=$this->getRequest();
+		$qd=$this->getRequest()->getQuery();
 		$id_book=$qd["id_book"];
 		$this->data["book"]=$book=$this->tm->getTable("Book")->get($id_book);
 		$this->data["ok"]=$this->u->payPledge($book);
+		$this->redirect()->toRoute('book/default',array('controller'=>'book','action'=>'page'),array('query'=>array('id_book'=>$id_book)));
         return new ViewModel($this->data);
     }
 

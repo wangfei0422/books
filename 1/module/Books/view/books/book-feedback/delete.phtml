@@ -1,6 +1,5 @@
 <?php if($status["success"]):?>
 	<?php
-	var_dump($status);
 		$form->setAttribute('action', $this->url('book/default',array('controller'=>'BookFeedback','action'=>'delete')));
 		$form->prepare();
 		echo $this->form()->openTag($form);

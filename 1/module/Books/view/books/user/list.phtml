@@ -1,13 +1,147 @@
-<?php if (count($this->paginator)): ?>
-<ul>
-<?php foreach ($this->paginator as $item): ?>
-<li>
-	<?php echo $item['name'];?>
-	<a href="<?php echo $this->url("book/default",array('controller'=>'user','action'=>'delete'),array('query'=>array('id_user'=>$item["id_user"])));?>">删除</a>
-	<a href="<?php echo $this->url("book/default",array('controller'=>'user','action'=>'edit'),array('query'=>array('id_user'=>$item["id_user"])));?>">编辑</a>
-</li>
-<?php endforeach; ?>
-</ul>
-<?php endif; ?>
+<style>
+    #main-container {
+        position: relative;
+        height: 100%;
+    }
+    div.sidebar-content{
+        padding-bottom:150px;
+    }
+    .header-bar {
+        position: fixed;
+        top:0px;
+        left:0px;
+        z-index: 100;
+        width: 100%;
+        height: 98px;
+        background-color:#30608d;
+        background-position:center;
+        background: url('../../static/images/header.png') no-repeat;
+    }
 
-<?php echo $this->paginationControl($this->paginator,'Sliding','books/partials/pagination_control.phtml', array('route'=>'book/default','controller' => 'user','action'=>'list')); ?>
+    .center-bar {
+        height: 98px;
+        padding-top: 15px;
+        margin: 5px auto;
+        padding-left:30px;
+        padding-right:50px;
+    }
+
+    .row {
+        padding-bottom: 5px;
+    }
+
+    .image-center {
+        width: 70px;
+        height: 70px;
+        margin: 0px auto;
+    }
+
+    #sidebar {
+        position:fixed;
+        left: 0px;
+        top: 50px;
+        width: 230px                   ;
+        height: 100%;
+        background: #30608d;
+        /*background: #00468E;*/
+        /*background: #415a61;*/
+    }
+    #mCSB_1_container{
+        width:100%;
+        margin-right: 0px;
+    }
+    .sidebar-mini-hide {
+        padding-left: 15px;
+        letter-spacing: 2px;
+    }
+
+    .nav-main ul {
+        padding: 0 0 0 80px;
+    }
+
+    .panel-info > .panel-heading {
+        background: #30608d;
+        color: #FFFFFF;
+        height: 40px;
+        line-height: 30px;
+        text-align: left;
+    }
+
+    .btn-default {
+        background: #30608d;
+        color: #FFFFFF;
+    }
+
+    .newbtn {
+        width: 230px;
+        background-color: #2c343f;
+    }
+
+    .newbtnchild {
+        width: 33.6%;
+        border: none;
+        border-radius: 0px;
+    }
+
+	.main {
+		position: absolute;
+		top: 70px;
+		left: 0px;
+		padding: 0px 23px;
+		width: 100%;
+		margin: 0 auto;
+	}
+</style>
+<div class="main" style="display:block;">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			用户（总数：<?php echo $paginator->getTotalItemCount(); ?>）
+		</div>
+		<div class="panel-body table-responsive">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th >姓名/昵称</th>
+					<th >类型</th>
+					<th >是否管理员</th>
+					<th >图书总数(本)</th>
+					<th >文章总数(篇)</th>
+					<th >QQ号</th>
+					<th >邮箱</th>
+					<th >操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php foreach($paginator as $item):?>
+					<?php 
+						$manager=$item->isManager()?"是":"否";
+						$type=$item->isSenior()?"大四学生":"普通用户";
+					?>
+					<tr>
+						<td>
+							<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$item["id_user"]))) ?>"><?php echo $item["name"];?></a>
+						</td>
+						<td><?php echo $type;?></td>
+						<td><?php echo $manager;?></td>
+						<td><a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"list"),array("query"=>array("id_user"=>$item["id_user"]))) ?>"><?php echo count($item->getBooks());?></a></td>
+						<td><a href="<?php echo $this->url("book/default",array("controller"=>"article","action"=>"list"),array("query"=>array("id_user"=>$item["id_user"]))) ?>"><?php echo count($item->getArticles());?></a></td>
+						<td><?php echo $item["qq_number"];?></td>
+						<td><?php echo $item["mail"];?></td>
+						<td>
+						<!--
+							<?php if($u->isManager() || $item["id_user"]==$u["id_user"]):?>
+								<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"edit"),array("query"=>array("id_user"=>$item["id_user"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+								<?php if($u->isManager()):?>
+									<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"delete"),array("query"=>array("id_user"=>$item["id_user"]))) ?>" class="btn btn-default btn-sm"><i class="fa fa-close"></i></a>
+								<?php endif;?>
+							<?php endif;?>
+						-->
+						</td>
+					</tr>
+				<?php endforeach;?>
+				<?php echo $this->paginationControl($this->paginator,'Sliding','books/partials/pagination_control.phtml', array('route'=>'book/default','controller' => 'user','action'=>'list')); ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
