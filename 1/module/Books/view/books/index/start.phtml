@@ -127,13 +127,15 @@
             <div class="article-center">
                 <img src="img/book01.jpg" alt="" height="268px" width="380px">
                 <div class="article-text">
+					<?php if(!is_null($top_book)):?>
 					<?php $author=$top_book->getUser(); ?>
-                    <p class="article-text-head">
-						<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$top_book["id_book"])));?>"><?php echo $top_book["name"];?></a> 
-						(
-							<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$author["id_user"])));?>"><?php echo $author["name"];?></a>
-						)
-					</p>
+						<p class="article-text-head">
+							<a href="<?php echo $this->url("book/default",array("controller"=>"book","action"=>"page"),array("query"=>array("id_book"=>$top_book["id_book"])));?>"><?php echo $top_book["name"];?></a> 
+							(
+								<a href="<?php echo $this->url("book/default",array("controller"=>"user","action"=>"page"),array("query"=>array("id_user"=>$author["id_user"])));?>"><?php echo $author["name"];?></a>
+							)
+						</p>
+					<?php endif;?>
                 </div>
             </div>
         </div>

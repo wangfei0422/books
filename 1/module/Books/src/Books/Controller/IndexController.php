@@ -31,7 +31,7 @@ class IndexController extends Controller
 		$this->data["book_types"]=$types=$this->cm->getBookTypes();
 		//图书推荐
 		$this->data["books_top_borrowed"]=$books=$b->getTopBorrowed();
-		$this->data["top_book"]=$books[0];
+		if(isset($books[0]))$this->data["top_book"]=$books[0];
 		//大四专场
 		$books2=$b->getBooksByUserType(User::TYPE_SENIOR,$books);
 		$this->data["books_for_senior"]=$b->getBooksByType("",$books2);
